@@ -1,0 +1,10 @@
+{
+  "name": "semantic-ui-evolution-protocol-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Stack-agnostic executable Design Protocol and Transform Contracts for Semantic UI Evolution Platform.",
+  "scripts": {
+    "test": "node tests/conformance.test.js"
+  }
+}

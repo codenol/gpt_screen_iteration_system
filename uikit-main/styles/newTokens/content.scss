@@ -1,0 +1,29 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ * Generated from Figma Variables
+ *
+ * Component: content
+ */
+@import './colors.scss';
+
+:root {
+  --content-text-primary: var(--cool-gray-800);
+  --content-text-hover: var(--bondi-blue-600);
+  --content-text-secondary: var(--cool-gray-700);
+  --content-text-tertairy: var(--cool-gray-550);
+  --content-icon-primary: var(--cool-gray-700);
+  --content-icon-secondary: var(--cool-gray-550);
+  --content-background-default: var(--white-550-t);
+  --content-indicator-success-background-default: var(--green-400);
+  --content-indicator-warning-background-default: var(--yellow-500);
+  --content-indicator-degradation-background-default: var(--orange-500);
+  --content-indicator-critical-background-default: var(--red-500);
+  --content-indicator-info-background-default: var(--cornflower-blue-500);
+  --content-indicator-maitenance-background-default: var(--warm-gray-400);
+  --content-indicator-additional-background-default: var(--bondi-blue-400);
+  --content-indicator-stop-background-default: var(--cool-gray-600);
+  --content-indicator-new-background-default: var(--java-400);
+  --content-indicator-load-background-default: var(--tory-blue-400);
+  --content-border-default: var(--cool-gray-300);
+  --content-surfase-default: var(--cool-gray-100);
+}

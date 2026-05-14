@@ -1,0 +1,161 @@
+@mixin apply-checkbox-tokens($state) {
+    //default
+    .p-checkbox-box {
+        border-color: var(--checkbox-#{$state}-border-default) !important;
+        background: var(--checkbox-#{$state}-background-default) !important;
+
+        &.p-highlight .p-checkbox-icon {
+            color: var(--checkbox-#{$state}-icon-default);
+        }
+    }
+    & ~ .checkbox-icon-indeterminate {
+        color: var(--checkbox-#{$state}-icon-default);
+    }
+
+    & ~ .checkbox-label {
+        color: var(--checkbox-#{$state}-text-default);
+    }
+
+    //hover
+    &:not(.p-checkbox-disabled):hover {
+        .p-checkbox-box {
+            border-color: var(--checkbox-#{$state}-border-hover) !important;
+            background: var(--checkbox-#{$state}-background-hover) !important;
+
+            &.p-highlight .p-checkbox-icon {
+                color: var(--checkbox-#{$state}-icon-hover);
+            }
+        }
+
+        & ~ .checkbox-icon-indeterminate {
+            color: var(--checkbox-#{$state}-icon-hover);
+        }
+
+        & ~ .checkbox-label {
+            color: var(--checkbox-#{$state}-text-hover);
+        }
+    }
+    //focused
+    &:not(.p-checkbox-disabled).p-checkbox-focused {
+        .p-checkbox-box {
+            border-color: var(--checkbox-#{$state}-border-focused) !important;
+            background: var(--checkbox-#{$state}-background-focused) !important;
+
+            &.p-highlight .p-checkbox-icon {
+                color: var(--checkbox-#{$state}-icon-focused);
+            }
+        }
+
+        & ~ .checkbox-icon-indeterminate {
+            color: var(--checkbox-#{$state}-icon-focused);
+        }
+
+        & ~ .checkbox-label {
+            color: var(--checkbox-#{$state}-text-focused);
+        }
+    }
+    //disabled
+    &.p-checkbox-disabled {
+        .p-checkbox-box {
+            border-color: var(--checkbox-#{$state}-border-disabled) !important;
+            background: var(--checkbox-#{$state}-background-disabled) !important;
+
+            &.p-highlight .p-checkbox-icon {
+                color: var(--checkbox-#{$state}-icon-disabled);
+            }
+        }
+
+        & ~ .checkbox-icon-indeterminate {
+            color: var(--checkbox-#{$state}-icon-disabled);
+        }
+
+        & ~ .checkbox-label {
+            color: var(--checkbox-#{$state}-text-disabled);
+        }
+    }
+    //warning
+    &:not(.p-checkbox-disabled).checkbox-warning {
+        .p-checkbox-box {
+            border-color: var(--checkbox-#{$state}-border-warning) !important;
+            background: var(--checkbox-#{$state}-background-warning) !important;
+
+            &.p-highlight .p-checkbox-icon {
+                color: var(--checkbox-#{$state}-icon-warning);
+            }
+        }
+
+        & ~ .checkbox-icon-indeterminate {
+            color: var(--checkbox-#{$state}-icon-warning);
+        }
+
+        & ~ .checkbox-label {
+            color: var(--checkbox-#{$state}-text-warning);
+        }
+    }
+}
+.p-checkbox {
+    width: 24px !important;
+    height: 24px !important;
+    align-items: center;
+    justify-content: center;
+
+    &-box {
+        width: 20px !important;
+        height: 20px !important;
+        border: none !important;
+        border-style: solid !important;
+        border-width: var(--spacing-spacer-50) !important;
+        border-radius: var(--border-radius-s) !important;
+
+        & .p-checkbox-icon {
+            width: 12px !important;
+            height: 12px !important;
+        }
+    }
+
+    &.p-checkbox-focused {
+        .p-checkbox-box {
+            box-shadow: 0px 0px 0px var(--spacingspacer-100) var(--effects-status-focus-default) !important;
+        }
+
+        &.checkbox-warning {
+            .p-checkbox-box {
+                box-shadow: 0px 0px 0px var(--spacingspacer-100) var(--effects-status-focus-warning) !important;
+            }
+        }
+    }
+
+    &:not(.p-checkbox-checked):not(.checkbox-indeterminate) {
+        @include apply-checkbox-tokens('unchecked');
+    }
+
+    &:not(.checkbox-indeterminate).p-checkbox-checked {
+        @include apply-checkbox-tokens('checked');
+    }
+
+    &.checkbox-indeterminate {
+        @include apply-checkbox-tokens('indeterminate');
+    }
+}
+
+.checkbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    gap: 8px;
+
+    &-icon-indeterminate {
+        position: absolute;
+        left: 4px;
+        top: 4px;
+        pointer-events: none;
+    }
+
+    &-label {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 1%;
+    }
+}

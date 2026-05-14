@@ -1,0 +1,65 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ * Generated from Figma Variables
+ *
+ * Component: checkbox
+ */
+@import './colors.scss';
+
+:root {
+  --checkbox-unchecked-background-default: var(--white-950);
+  --checkbox-unchecked-background-hover: var(--white-950);
+  --checkbox-unchecked-background-focused: var(--white-950);
+  --checkbox-unchecked-background-disabled: var(--cool-gray-100);
+  --checkbox-unchecked-background-warning: var(--white-950);
+  --checkbox-unchecked-border-default: var(--cool-gray-300);
+  --checkbox-unchecked-border-hover: var(--bondi-blue-500);
+  --checkbox-unchecked-border-focused: var(--bondi-blue-500);
+  --checkbox-unchecked-border-disabled: var(--cool-gray-200);
+  --checkbox-unchecked-border-warning: var(--orange-550);
+  --checkbox-unchecked-text-default: var(--cool-gray-700);
+  --checkbox-unchecked-text-hover: var(--cool-gray-700);
+  --checkbox-unchecked-text-focused: var(--cool-gray-700);
+  --checkbox-unchecked-text-disabled: var(--cool-gray-400);
+  --checkbox-unchecked-text-warning: var(--cool-gray-700);
+  --checkbox-checked-background-default: var(--bondi-blue-600);
+  --checkbox-checked-background-hover: var(--bondi-blue-500);
+  --checkbox-checked-background-focused: var(--bondi-blue-650);
+  --checkbox-checked-background-disabled: var(--bondi-blue-200);
+  --checkbox-checked-background-warning: var(--orange-500);
+  --checkbox-checked-border-default: var(--bondi-blue-600);
+  --checkbox-checked-border-hover: var(--bondi-blue-500);
+  --checkbox-checked-border-focused: var(--bondi-blue-500);
+  --checkbox-checked-border-disabled: var(--bondi-blue-200);
+  --checkbox-checked-border-warning: var(--orange-500);
+  --checkbox-checked-text-default: var(--cool-gray-800);
+  --checkbox-checked-text-hover: var(--cool-gray-800);
+  --checkbox-checked-text-focused: var(--cool-gray-800);
+  --checkbox-checked-text-disabled: var(--cool-gray-400);
+  --checkbox-checked-text-warning: var(--cool-gray-800);
+  --checkbox-checked-icon-default: var(--white-950);
+  --checkbox-checked-icon-hover: var(--white-950);
+  --checkbox-checked-icon-focused: var(--white-950);
+  --checkbox-checked-icon-disabled: var(--white-950);
+  --checkbox-checked-icon-warning: var(--white-950);
+  --checkbox-indeterminate-background-default: var(--bondi-blue-600);
+  --checkbox-indeterminate-background-hover: var(--bondi-blue-500);
+  --checkbox-indeterminate-background-focused: var(--bondi-blue-650);
+  --checkbox-indeterminate-background-disabled: var(--bondi-blue-200);
+  --checkbox-indeterminate-background-warning: var(--orange-500);
+  --checkbox-indeterminate-border-default: var(--bondi-blue-600);
+  --checkbox-indeterminate-border-hover: var(--bondi-blue-500);
+  --checkbox-indeterminate-border-focused: var(--bondi-blue-500);
+  --checkbox-indeterminate-border-disabled: var(--bondi-blue-200);
+  --checkbox-indeterminate-border-warning: var(--orange-600);
+  --checkbox-indeterminate-icon-default: var(--white-950);
+  --checkbox-indeterminate-icon-hover: var(--white-950);
+  --checkbox-indeterminate-icon-focused: var(--white-950);
+  --checkbox-indeterminate-icon-disabled: var(--white-950);
+  --checkbox-indeterminate-icon-warning: var(--white-950);
+  --checkbox-indeterminate-text-default: var(--cool-gray-800);
+  --checkbox-indeterminate-text-hover: var(--cool-gray-800);
+  --checkbox-indeterminate-text-focused: var(--cool-gray-800);
+  --checkbox-indeterminate-text-disabled: var(--cool-gray-400);
+  --checkbox-indeterminate-text-warning: var(--cool-gray-800);
+}

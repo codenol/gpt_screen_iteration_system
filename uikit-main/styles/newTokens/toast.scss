@@ -1,0 +1,29 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ * Generated from Figma Variables
+ *
+ * Component: toast
+ */
+@import './colors.scss';
+
+:root {
+  --toast-base-background-default: var(--white-950);
+  --toast-base-text-default: var(--cool-gray-800);
+  --toast-base-icon-default: var(--cool-gray-800);
+  --toast-info-background-default: var(--white-950);
+  --toast-info-text-default: var(--cool-gray-800);
+  --toast-info-icon-default: var(--cool-gray-800);
+  --toast-info-indicator-border-default: var(--cornflower-blue-650);
+  --toast-success-background-default: var(--white-950);
+  --toast-success-text-default: var(--cool-gray-800);
+  --toast-success-icon-default: var(--cool-gray-800);
+  --toast-success-indicator-border-default: var(--green-750);
+  --toast-warning-background-default: var(--white-950);
+  --toast-warning-text-default: var(--cool-gray-800);
+  --toast-warning-icon-default: var(--cool-gray-800);
+  --toast-warning-indicator-border-default: var(--orange-600);
+  --toast-danger-background-default: var(--white-950);
+  --toast-danger-text-default: var(--cool-gray-800);
+  --toast-danger-icon-default: var(--cool-gray-800);
+  --toast-danger-indicator-border-default: var(--red-700);
+}

@@ -1,0 +1,100 @@
+@mixin apply-toast-tokens($severity) {
+    border-left: 6px;
+    border-left-style: solid;
+    border-color: var(--toast-#{$severity}-indicator-border-default);
+    background-color: var(--toast-#{$severity}-background-default);
+
+    .p-toast-message-content {
+        & .toast-content {
+            &-detail {
+                color: var(--toast-#{$severity}-text-default);
+            }
+
+            &-header {
+                &-icon {
+                    color: var(--toast-#{$severity}-icon-default);
+                }
+            }
+        }
+    }
+}
+
+.p-toast {
+    z-index: 5000;
+    max-width: 320px;
+
+    &-message {
+        background-color: var(--toast-base-background-default);
+        border-radius: var(--border-radiusxxl);
+        padding: var(--spacing-spacer-800);
+        margin: 0 0 1rem;
+        box-shadow: 0px 21.8px 43px 0px rgba(0, 0, 0, 0.08), 0px 9.4px 24px 0px rgba(0, 0, 0, 0.09),
+            0px 2.7px 9px 0px rgba(0, 0, 0, 0.13);
+
+        &-content {
+            display: block !important;
+            position: relative;
+
+            & .toast-content {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+
+                &-header {
+                    display: flex;
+                    align-items: flex-start;
+                    margin-right: var(--spacing-spacer-1000);
+                    gap: 8px;
+
+                    &-title {
+                        font-weight: 700;
+                        letter-spacing: 2%;
+                    }
+
+                    &-icon {
+                        flex-shrink: 0;
+                        color: var(--toast-base-icon-default);
+                    }
+                }
+
+                &-detail {
+                    font-weight: 400;
+                    letter-spacing: 1%;
+                }
+
+                &-button {
+                    width: fit-content;
+                    align-self: flex-end;
+                }
+            }
+        }
+
+        &-error {
+            @include apply-toast-tokens('danger');
+        }
+
+        &-info {
+            @include apply-toast-tokens('info');
+        }
+
+        &-success {
+            @include apply-toast-tokens('success');
+        }
+
+        &-warn {
+            @include apply-toast-tokens('warning');
+        }
+    }
+
+    &-icon-close {
+        position: absolute !important;
+        top: 0px;
+        right: 0px;
+    }
+}
+
+.toast-text-base {
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--toast-base-text-default);
+}

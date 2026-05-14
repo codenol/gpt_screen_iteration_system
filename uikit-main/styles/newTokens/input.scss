@@ -1,0 +1,47 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ * Generated from Figma Variables
+ *
+ * Component: input
+ */
+@import './colors.scss';
+
+:root {
+  --input-background-default: var(--white-950);
+  --input-background-hover: var(--white-950);
+  --input-background-focused: var(--white-950);
+  --input-background-filled: var(--white-950);
+  --input-background-error: var(--white-950);
+  --input-background-disabled: var(--cool-gray-100);
+  --input-background-warning: var(--white-950);
+  --input-border-default: var(--cool-gray-200);
+  --input-border-hover: var(--bondi-blue-600);
+  --input-border-focused: var(--bondi-blue-500);
+  --input-border-filled: var(--cool-gray-200);
+  --input-border-error: var(--red-600);
+  --input-border-disabled: var(--cool-gray-200);
+  --input-border-warning: var(--orange-600);
+  --input-text-default: var(--cool-gray-600);
+  --input-text-hover: var(--cool-gray-600);
+  --input-text-focused: var(--cool-gray-600);
+  --input-text-filled: var(--cool-gray-800);
+  --input-text-error: var(--cool-gray-800);
+  --input-text-disabled: var(--cool-gray-400);
+  --input-text-warning: var(--cool-gray-800);
+  --input-icon-default: var(--cool-gray-700);
+  --input-icon-hover: var(--cool-gray-700);
+  --input-icon-focused: var(--cool-gray-700);
+  --input-icon-filled: var(--cool-gray-700);
+  --input-icon-error: var(--cool-gray-700);
+  --input-icon-disabled: var(--cool-gray-400);
+  --input-icon-warning: var(--cool-gray-700);
+  --input-lable-text-default: var(--cool-gray-800);
+  --input-lable-icon-info: var(--cornflower-blue-550);
+  --input-hint-default: var(--cool-gray-600);
+  --input-hint-hover: var(--cool-gray-600);
+  --input-hint-focused: var(--cool-gray-600);
+  --input-hint-filled: var(--cool-gray-800);
+  --input-hint-warning: var(--orange-600);
+  --input-hint-error: var(--red-600);
+  --input-hint-disabled: var(--cool-gray-400);
+}

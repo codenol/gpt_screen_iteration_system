@@ -1,0 +1,54 @@
+.app-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+  
+    .app-input {
+        width: 100%;
+    }
+  
+    .app-input-hint {
+        color: var(--input-hint-default);
+        font-size: 0.75rem;
+        transition: color 0.2s;
+    }
+  
+    .p-input-icon-left > .app-input {
+        padding-left: 2rem;
+    }
+  
+    .p-input-icon-right > .app-input {
+        padding-right: 2rem;
+    }
+  
+    &.status-error {
+        .app-input {
+            border-color: var(--input-border-error);
+        }
+  
+        .app-input-hint {
+            color: var(--input-hint-error);
+        }
+    }
+  
+    &.status-warning {
+        .app-input {
+            border-color: var(--input-border-warning);
+        }
+  
+        .app-input-hint {
+            color: var(--input-hint-warning);
+        }
+    }
+  
+    &.status-disabled {
+        .app-input {
+            background: var(--input-background-disabled);
+            color: var(--input-text-disabled);
+        }
+  
+        .app-input-hint {
+            color: var(--input-hint-disabled);
+        }
+    }
+}

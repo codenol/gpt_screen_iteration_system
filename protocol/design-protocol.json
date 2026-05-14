@@ -1,0 +1,327 @@
+{
+  "protocol": {
+    "name": "Semantic UI Evolution Design Protocol",
+    "version": "0.1.0",
+    "compatibility": {
+      "minTransformContractVersion": "1.0.0",
+      "stateModelVersion": "0.1.0"
+    }
+  },
+  "semanticRoles": {
+    "screen": { "kind": "container", "purpose": "Root semantic UX workspace." },
+    "feature": { "kind": "container", "purpose": "Independently evolving UX capability." },
+    "left_navigation": { "kind": "region", "purpose": "Fixed sidebar/minibar navigation block." },
+    "right_workspace": { "kind": "region", "purpose": "Main screen workspace to the right of navigation." },
+    "breadcrumbs_region": { "kind": "region", "purpose": "Top right workspace region that always renders breadcrumbs." },
+    "content_area": { "kind": "region", "purpose": "Lower right workspace region for contextual screen content." },
+    "primary_content": { "kind": "region", "purpose": "Main workflow area inside the content area." },
+    "table_controls": { "kind": "node", "purpose": "Controls above a table with left search/filter group and right actions group." },
+    "table_controls_left": { "kind": "node", "purpose": "Left side of table controls: search first, then filters." },
+    "table_controls_right": { "kind": "node", "purpose": "Right side of table controls: CTA on the far right, secondary outline actions to the left." },
+    "table_pagination": { "kind": "node", "purpose": "Pagination block rendered below the table." },
+    "persistent_filters": { "kind": "region", "purpose": "Visible filtering controls inside table controls." },
+    "contextual_drawer": { "kind": "region", "purpose": "Contextual details overlay." },
+    "toolbar": { "kind": "node", "purpose": "Action and control surface." },
+    "filters": { "kind": "node", "purpose": "Filter control group." },
+    "primary_filter": { "kind": "node", "purpose": "High-priority search or filtering control." },
+    "secondary_controls": { "kind": "node", "purpose": "Lower-priority controls that can be collapsed or reduced." },
+    "data_table": { "kind": "widget", "purpose": "Dense operational data display." },
+    "data_display": { "kind": "widget", "purpose": "Structured or metric data presentation." },
+    "details_overlay": { "kind": "widget", "purpose": "Contextual detail view." },
+    "form_input": { "kind": "node", "purpose": "User-editable field group." },
+    "metric_summary": { "kind": "widget", "purpose": "Compact summary of metrics." },
+    "tabs_region": { "kind": "region", "purpose": "Semantic grouping via switchable views." },
+    "navigation_item": { "kind": "node", "purpose": "Sidebar/minibar navigation item." },
+    "navigation_toggle": { "kind": "node", "purpose": "Sidebar/minibar collapse or expand control." },
+    "primary_cta": { "kind": "node", "purpose": "Main contextual action, positioned far right in table controls." },
+    "secondary_action": { "kind": "node", "purpose": "Secondary outline action positioned left of the primary CTA." },
+    "missing_capability": { "kind": "widget", "purpose": "Placeholder preserving unsupported semantic intent." }
+  },
+  "layoutSemantics": {
+    "full_screen_layout": {
+      "description": "Root wrapper with 24px outer padding and two blocks: fixed collapsible left sidebar/minibar and right workspace.",
+      "spacing": { "outerPaddingPx": 24, "innerGapPx": 16 },
+      "structure": ["left_navigation", "right_workspace"]
+    },
+    "right_workspace": {
+      "description": "Right block split vertically into breadcrumbs region and contextual content area.",
+      "spacing": { "innerGapPx": 16 },
+      "structure": ["breadcrumbs_region", "content_area"]
+    },
+    "left_navigation": {
+      "description": "Fixed sidebar/minibar navigation. It may collapse but remains present.",
+      "compatibleWidgets": ["SidebarMinibar", "MissingCapabilityWidget"]
+    },
+    "breadcrumbs_region": {
+      "description": "Always-visible breadcrumb region at the top of the right workspace.",
+      "compatibleWidgets": ["Breadcrumbs", "MissingCapabilityWidget"]
+    },
+    "content_area": {
+      "description": "Main contextual area below breadcrumbs.",
+      "compatibleWidgets": ["DataTable", "Form", "StatsCards", "Tabs", "TableControls", "MissingCapabilityWidget"]
+    },
+    "primary_content": {
+      "description": "Dominant workflow region.",
+      "compatibleWidgets": ["DataTable", "Form", "StatsCards", "Tabs", "MissingCapabilityWidget"]
+    },
+    "persistent_filters": {
+      "description": "Visible filtering controls inside the left side of TableControls.",
+      "compatibleWidgets": ["TableControls", "MissingCapabilityWidget"]
+    },
+    "contextual_drawer": {
+      "description": "Right-side modal drawer that opens from the right and spans full viewport height.",
+      "compatibleWidgets": ["Drawer", "Form", "MissingCapabilityWidget"]
+    },
+    "toolbar": {
+      "description": "Compact control strip for primary and secondary actions.",
+      "compatibleWidgets": ["TableControls", "Tabs", "MissingCapabilityWidget"]
+    },
+    "tabs_region": {
+      "description": "Switchable semantic grouping of related views.",
+      "compatibleWidgets": ["Tabs", "DataTable", "StatsCards", "MissingCapabilityWidget"]
+    }
+  },
+  "screenArchetypes": {
+    "crud_management": {
+      "description": "Manage entities with search, filters, table, details and edit flows.",
+      "preferredWidgets": ["SidebarMinibar", "Breadcrumbs", "TableControls", "DataTable", "Drawer", "Form"],
+      "discouragedWidgets": ["StatsCards"],
+      "layoutPreferences": ["full_screen_layout", "left_navigation", "breadcrumbs_region", "content_area", "primary_content", "contextual_drawer"]
+    },
+    "dense_operational": {
+      "description": "High-speed operational workflow with dense data and persistent controls.",
+      "preferredWidgets": ["SidebarMinibar", "Breadcrumbs", "TableControls", "DataTable", "Drawer", "Tabs"],
+      "discouragedWidgets": ["StatsCards"],
+      "layoutPreferences": ["full_screen_layout", "left_navigation", "breadcrumbs_region", "content_area", "toolbar", "primary_content"],
+      "rules": {
+        "allowSidebarFilters": false,
+        "preferCompactVariants": true
+      }
+    },
+    "approval_workflow": {
+      "description": "Review and approve structured changes with context and history.",
+      "preferredWidgets": ["SidebarMinibar", "Breadcrumbs", "Drawer", "Form", "Tabs", "DataTable"],
+      "discouragedWidgets": [],
+      "layoutPreferences": ["full_screen_layout", "left_navigation", "breadcrumbs_region", "content_area", "primary_content", "contextual_drawer", "tabs_region"]
+    }
+  },
+  "widgetDefinitions": [
+    {
+      "widgetType": "AppLayout",
+      "purpose": "Full screen wrapper with fixed collapsible left sidebar/minibar and right workspace.",
+      "supportedInteractions": ["sidebar_collapse", "workspace_navigation", "semantic_region_selection"],
+      "variants": ["standard"],
+      "defaultVariant": "standard",
+      "semanticNodes": [
+        { "suffix": "left_navigation", "role": "left_navigation", "targetable": true },
+        { "suffix": "right_workspace", "role": "right_workspace", "targetable": true },
+        { "suffix": "breadcrumbs", "role": "breadcrumbs_region", "targetable": true },
+        { "suffix": "content", "role": "content_area", "targetable": true }
+      ],
+      "allowedTransforms": ["switch_widget_variant", "reduce_visual_weight"],
+      "constraints": ["Outer wrapper padding is 24px.", "Inner gaps are 16px.", "Right workspace is always split into breadcrumbs and content area."],
+      "discouragedUsage": ["Rendering screens without breadcrumbs in the right workspace."],
+      "rendererContract": "Render a full-screen shell with left navigation and right workspace regions, exposing semantic anchors for all regions.",
+      "explainability": { "summary": "AppLayout provides the stable screen geometry for semantic rendering." }
+    },
+    {
+      "widgetType": "SidebarMinibar",
+      "purpose": "Fixed collapsible left navigation block.",
+      "supportedInteractions": ["collapse_expand", "subsystem_switching", "theme_switching", "navigation", "badges"],
+      "variants": ["standard", "short"],
+      "defaultVariant": "standard",
+      "semanticNodes": [
+        { "suffix": "items", "role": "navigation_item", "targetable": true },
+        { "suffix": "toggle", "role": "navigation_toggle", "targetable": true }
+      ],
+      "allowedTransforms": ["switch_widget_variant", "reduce_visual_weight"],
+      "constraints": ["Sidebar/minibar is fixed and remains present when collapsed.", "Collapsed mode maps to short layout mode."],
+      "discouragedUsage": ["Using as contextual table filters or screen content."],
+      "rendererContract": "Bind to CombinedNavMenu and expose anchors for navigation items and collapse toggle.",
+      "explainability": { "summary": "SidebarMinibar maps platform navigation to the existing collapsible UIKit navigation." }
+    },
+    {
+      "widgetType": "Breadcrumbs",
+      "purpose": "Always-visible top breadcrumb region in the right workspace.",
+      "supportedInteractions": ["breadcrumb_navigation"],
+      "variants": ["standard"],
+      "defaultVariant": "standard",
+      "semanticNodes": [
+        { "suffix": "items", "role": "breadcrumbs_region", "targetable": true }
+      ],
+      "allowedTransforms": ["reduce_visual_weight"],
+      "constraints": ["Breadcrumbs are always rendered in the top right workspace region."],
+      "discouragedUsage": ["Hiding breadcrumbs on regular screens."],
+      "rendererContract": "Bind to BreadCrumbs or GenomeBreadCrumbs and expose breadcrumb semantic anchors.",
+      "explainability": { "summary": "Breadcrumbs preserve navigation context for every screen." }
+    },
+    {
+      "widgetType": "DataTable",
+      "purpose": "Dense operational display for structured entities.",
+      "supportedInteractions": ["sorting", "filtering", "grouping", "pagination", "selection", "density_modes", "column_visibility"],
+      "variants": ["compact", "comfortable", "analytics"],
+      "defaultVariant": "comfortable",
+      "semanticNodes": [
+        { "suffix": "controls", "role": "table_controls", "targetable": true },
+        { "suffix": "columns", "role": "data_display", "targetable": true },
+        { "suffix": "rows", "role": "data_display", "targetable": true },
+        { "suffix": "pagination", "role": "table_pagination", "targetable": true }
+      ],
+      "allowedTransforms": ["increase_density", "collapse_secondary", "reduce_visual_weight", "switch_widget_variant"],
+      "constraints": ["Do not store selected rows as semantic source of truth.", "Do not create custom row event handlers in protocol state.", "First MVP table screen must render pagination below the table."],
+      "discouragedUsage": ["Low-density visual browsing where cards are the primary UX."],
+      "rendererContract": "Bind to DataTableDynamic, render TableControls above the table, and render pagination below the table for the first MVP screen.",
+      "explainability": { "summary": "DataTable is selected for dense structured entity workflows." }
+    },
+    {
+      "widgetType": "TableControls",
+      "purpose": "Controls above a table: left search then filters, right secondary outline actions then primary CTA.",
+      "supportedInteractions": ["search", "filters", "quick_filters", "advanced_filters", "primary_cta", "secondary_actions", "button_dropdown"],
+      "variants": ["standard", "compact", "collapsible"],
+      "defaultVariant": "standard",
+      "semanticNodes": [
+        { "suffix": "left", "role": "table_controls_left", "targetable": true },
+        { "suffix": "left.search", "role": "primary_filter", "targetable": true },
+        { "suffix": "left.filters", "role": "filters", "targetable": true },
+        { "suffix": "right", "role": "table_controls_right", "targetable": true },
+        { "suffix": "right.secondary_actions", "role": "secondary_action", "targetable": true },
+        { "suffix": "right.cta", "role": "primary_cta", "targetable": true }
+      ],
+      "allowedTransforms": ["increase_density", "simplify_filters", "collapse_secondary", "prioritize_search", "reduce_visual_weight", "switch_widget_variant"],
+      "constraints": ["Search, when present, is first in the left block.", "Filters follow search in the left block.", "Primary CTA is far right.", "Secondary actions are outline buttons to the left of the CTA.", "Filter dropdown/open state is runtime-only."],
+      "discouragedUsage": ["Rendering a standalone FiltersBar outside table controls."],
+      "rendererContract": "Compose controls above DataTableDynamic from UIKit inputs, filter controls and PrimeReact Button actions.",
+      "explainability": { "summary": "TableControls captures the real production pattern for controls above tables." }
+    },
+    {
+      "widgetType": "Drawer",
+      "purpose": "Right-side modal drawer for contextual details, navigation and actions.",
+      "supportedInteractions": ["contextual_details", "navigation", "actions", "open_close_runtime"],
+      "variants": ["standard", "wide", "inspection"],
+      "defaultVariant": "standard",
+      "semanticNodes": [
+        { "suffix": "header", "role": "details_overlay", "targetable": true },
+        { "suffix": "content", "role": "details_overlay", "targetable": true },
+        { "suffix": "actions", "role": "toolbar", "targetable": true }
+      ],
+      "allowedTransforms": ["reduce_visual_weight", "collapse_secondary", "switch_widget_variant"],
+      "constraints": ["Open/closed drawer state is runtime-only.", "Drawer opens from the right.", "Drawer spans the full viewport height.", "Drawer is modal behavior, not inline layout."],
+      "discouragedUsage": ["Blocking operational workflows with unnecessary modal behavior."],
+      "rendererContract": "Render a right-side full-height modal drawer and preserve semantic anchors independent of open runtime state.",
+      "explainability": { "summary": "Drawer keeps details contextual without leaving the screen workflow." }
+    },
+    {
+      "widgetType": "Form",
+      "purpose": "Structured user input with validation and grouped fields.",
+      "supportedInteractions": ["validation", "dirty_state", "field_grouping", "inline_errors", "keyboard_navigation"],
+      "variants": ["compact", "standard", "review"],
+      "defaultVariant": "standard",
+      "semanticNodes": [
+        { "suffix": "fields", "role": "form_input", "targetable": true },
+        { "suffix": "validation", "role": "secondary_controls", "targetable": true },
+        { "suffix": "actions", "role": "toolbar", "targetable": true }
+      ],
+      "allowedTransforms": ["increase_density", "collapse_secondary", "reduce_visual_weight", "switch_widget_variant"],
+      "constraints": ["Dirty state and focused field are runtime-only.", "Validation rules are semantic but validation execution is widget built-in."],
+      "discouragedUsage": ["Encoding arbitrary business workflows as custom event handlers."],
+      "rendererContract": "Render grouped fields with built-in validation indicators and semantic anchors.",
+      "explainability": { "summary": "Form provides constrained input capability without custom frontend logic." }
+    },
+    {
+      "widgetType": "StatsCards",
+      "purpose": "Metric summary, trend indicators and drill targets.",
+      "supportedInteractions": ["metric_summary", "trend_indicators", "drill_target"],
+      "variants": ["compact", "standard", "analytics"],
+      "defaultVariant": "standard",
+      "semanticNodes": [
+        { "suffix": "metrics", "role": "metric_summary", "targetable": true },
+        { "suffix": "trends", "role": "data_display", "targetable": true },
+        { "suffix": "drill_targets", "role": "secondary_controls", "targetable": true }
+      ],
+      "allowedTransforms": ["increase_density", "reduce_visual_weight", "switch_widget_variant"],
+      "constraints": ["Metric drill state is runtime-only.", "Cards are discouraged as the primary view for dense operational entity management."],
+      "discouragedUsage": ["Replacing dense tables in operational workflows."],
+      "rendererContract": "Render metric cards and expose metric, trend and drill semantic anchors.",
+      "explainability": { "summary": "StatsCards summarize metrics without becoming the full data source of truth." }
+    },
+    {
+      "widgetType": "Tabs",
+      "purpose": "Semantic grouping through switchable views.",
+      "supportedInteractions": ["view_switching", "persistent_tab_state", "semantic_grouping"],
+      "variants": ["standard", "compact", "segmented"],
+      "defaultVariant": "standard",
+      "semanticNodes": [
+        { "suffix": "tab_list", "role": "tabs_region", "targetable": true },
+        { "suffix": "tab_panel", "role": "primary_content", "targetable": true }
+      ],
+      "allowedTransforms": ["increase_density", "reduce_visual_weight", "switch_widget_variant"],
+      "constraints": ["Active tab is runtime state unless explicitly persisted as review context.", "Tabs must group semantically related views."],
+      "discouragedUsage": ["Hiding primary workflow steps behind unrelated tabs."],
+      "rendererContract": "Render switchable semantic groups with stable anchors for list and panel.",
+      "explainability": { "summary": "Tabs organize related semantic views with built-in switching." }
+    },
+    {
+      "widgetType": "MissingCapabilityWidget",
+      "purpose": "Visually distinct placeholder preserving requested unsupported capability.",
+      "supportedInteractions": ["selection", "commenting", "review_marker"],
+      "variants": ["placeholder"],
+      "defaultVariant": "placeholder",
+      "semanticNodes": [
+        { "suffix": "capability_request", "role": "missing_capability", "targetable": true }
+      ],
+      "allowedTransforms": ["add_missing_capability_placeholder"],
+      "constraints": ["Must preserve semantic intent.", "Must not pretend that unsupported runtime behavior exists."],
+      "discouragedUsage": [],
+      "rendererContract": "Render a distinct placeholder that can be selected, commented and tracked through revisions.",
+      "explainability": { "summary": "Missing capability is represented explicitly instead of being treated as an error." }
+    }
+  ],
+  "heuristics": [
+    {
+      "id": "dense_operational_prefers_compact",
+      "level": "recommendation",
+      "when": { "archetype": "dense_operational" },
+      "recommend": ["increase_density", "prioritize_search"],
+      "explanation": "Dense operational workflows prefer compact controls and high information density."
+    },
+    {
+      "id": "filters_over_six_should_collapse",
+      "level": "soft",
+      "when": { "nodeRole": "filters", "filterCountGreaterThan": 6 },
+      "recommend": ["simplify_filters", "collapse_secondary"],
+      "explanation": "Large filter sets should expose quick filters and collapse advanced controls."
+    },
+    {
+      "id": "runtime_state_is_not_semantic",
+      "level": "hard",
+      "forbidEffects": ["set_runtime_state"],
+      "explanation": "Hover, open drawer, selected row and focused field are renderer runtime state."
+    },
+    {
+      "id": "no_arbitrary_frontend_logic",
+      "level": "hard",
+      "forbidEffects": ["emit_react", "emit_jsx", "emit_css", "add_event_handler"],
+      "explanation": "Transforms may only change semantic state through declared effects."
+    }
+  ],
+  "compatibilityRules": {
+    "allowedWidgetTypes": ["AppLayout", "SidebarMinibar", "Breadcrumbs", "DataTable", "TableControls", "Drawer", "Form", "StatsCards", "Tabs", "MissingCapabilityWidget"],
+    "forbiddenEffects": ["emit_react", "emit_jsx", "emit_css", "add_event_handler", "set_runtime_state"],
+    "archetypeTransformRestrictions": [
+      {
+        "archetype": "dense_operational",
+        "transformId": "move_to_sidebar",
+        "targetWidgetType": "TableControls",
+        "allowed": false,
+        "reason": "Dense operational screens require persistent visible filters; sidebar filters reduce scanning speed."
+      }
+    ]
+  },
+  "explainabilityTemplates": {
+    "validTransform": "Transform {transformId} can be applied to {targetNodeId} because {reason}.",
+    "invalidTransform": "Transform {transformId} cannot be applied to {targetNodeId}: {reason}.",
+    "needsChoice": "Multiple valid transform candidates are available for {intent}.",
+    "missingCapability": "Capability {capability} is not available in the widget registry; a placeholder preserves semantic intent.",
+    "appliedComment": "Comment {commentId} is linked to transform {transformId} and will be marked applied in the revision candidate."
+  }
+}

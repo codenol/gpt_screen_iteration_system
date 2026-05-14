@@ -1,0 +1,190 @@
+{
+  "source": {
+    "name": "uikit-main",
+    "path": "uikit-main",
+    "storybookSection": "Настоящее"
+  },
+  "layout": {
+    "semanticWidget": "AppLayout",
+    "bindingType": "renderer_composition",
+    "structure": {
+      "outerPaddingPx": 24,
+      "innerGapPx": 16,
+      "blocks": [
+        {
+          "role": "left_navigation",
+          "widget": "SidebarMinibar",
+          "fixed": true,
+          "collapsible": true
+        },
+        {
+          "role": "right_workspace",
+          "direction": "vertical",
+          "gapPx": 16,
+          "children": [
+            { "role": "breadcrumbs_region", "widget": "Breadcrumbs", "alwaysVisible": true },
+            { "role": "content_area", "acceptsScreenFeatures": true }
+          ]
+        }
+      ]
+    }
+  },
+  "semanticAnchorContract": {
+    "requiredAttributes": ["data-semantic-node-id", "data-semantic-role"],
+    "recommendedAttributes": ["data-semantic-widget-type", "data-semantic-feature-id", "data-semantic-revision-id"],
+    "requirements": [
+      "Every renderer binding must expose stable semantic anchors on targetable regions.",
+      "Anchors must not depend on DOM position, generated CSS class names, or visual coordinates.",
+      "Runtime-only state such as hover, selected row, active tab, open drawer and focused field must not become semantic source of truth."
+    ]
+  },
+  "bindings": [
+    {
+      "semanticWidget": "SidebarMinibar",
+      "uikitComponent": "CombinedNavMenu",
+      "path": "uikit-main/CombinedNavMenu/CombinedNavMenu.tsx",
+      "variantMapping": {
+        "standard": { "prop": "layoutMode", "value": "standard" },
+        "short": { "prop": "layoutMode", "value": "short" }
+      },
+      "safeSemanticProps": ["model", "currentSubsystem", "defaultHomePage", "submenuModel", "layoutMode", "theme", "userAvatarElement"],
+      "integrationProps": ["onChangeLayoutMode", "onChangeTheme"],
+      "forbiddenGeneratedProps": ["className", "style"],
+      "anchorTargets": ["items", "toggle"]
+    },
+    {
+      "semanticWidget": "Breadcrumbs",
+      "uikitComponent": "BreadCrumbs|GenomeBreadCrumbs",
+      "path": "uikit-main/BreadCrumbs/BreadCrumbs.tsx",
+      "safeSemanticProps": ["router", "home", "excludePaths"],
+      "integrationProps": [],
+      "forbiddenGeneratedProps": ["className", "style"],
+      "anchorTargets": ["items"]
+    },
+    {
+      "semanticWidget": "DataTable",
+      "uikitComponent": "DataTableDynamic",
+      "path": "uikit-main/DataTableDynamic/DataTableDynamic.tsx",
+      "safeSemanticProps": [
+        "id",
+        "data",
+        "columns",
+        "header",
+        "actions",
+        "filters",
+        "dataKey",
+        "selectionMode",
+        "showGridlines",
+        "isDefaultSorted",
+        "defaultSortOrder",
+        "scrollable",
+        "scrollHeight",
+        "virtualScrollerOptions",
+        "resizableColumns",
+        "reorderableColumns",
+        "paginator",
+        "rows",
+        "rowsPerPageOptions",
+        "stripedRows"
+      ],
+      "mvpRequiredProps": {
+        "paginator": true,
+        "rows": "required",
+        "rowsPerPageOptions": "required"
+      },
+      "integrationProps": ["onSelectionChange", "onSelectAllChange", "onRowClick", "contextMenuTemplate", "onSort", "onRowToggle"],
+      "forbiddenGeneratedProps": ["body", "rowExpansionTemplate", "footer", "props", "style", "className", "tableRef"],
+      "anchorTargets": ["controls", "columns", "rows", "pagination"],
+      "placementRules": {
+        "controls": "above_table",
+        "pagination": "below_table"
+      }
+    },
+    {
+      "semanticWidget": "TableControls",
+      "uikitComponent": "renderer_composition",
+      "path": null,
+      "composition": {
+        "left": {
+          "order": ["search", "filters"],
+          "allowedComponents": ["InputField", "MultiSelectComponent", "DateRangeInput", "Checkbox", "RadioButton", "InputNumber", "Switch"]
+        },
+        "right": {
+          "order": ["secondary_actions", "primary_cta"],
+          "secondaryActionStyle": "outline",
+          "ctaPosition": "far_right",
+          "allowedComponents": ["Button", "ButtonDrop"]
+        }
+      },
+      "safeSemanticProps": ["search", "filters", "secondaryActions", "primaryAction"],
+      "integrationProps": ["onSearch", "onFilterChange", "onAction"],
+      "forbiddenGeneratedProps": ["customReactNode", "customEventHandler", "style", "className"],
+      "anchorTargets": ["left", "left.search", "left.filters", "right", "right.secondary_actions", "right.cta"],
+      "notes": ["No standalone FiltersBar exists in UIKit; TableControls is a renderer composition above DataTableDynamic."]
+    },
+    {
+      "semanticWidget": "Drawer",
+      "uikitComponent": "Drawer",
+      "path": "uikit-main/Drawer/Drawer.tsx",
+      "composition": {
+        "opensFrom": "right",
+        "height": "100vh",
+        "modal": true
+      },
+      "safeSemanticProps": ["title", "content", "actions", "width"],
+      "integrationProps": ["onClose", "onAction"],
+      "forbiddenGeneratedProps": ["customReactNode", "customEventHandler", "style", "className"],
+      "anchorTargets": ["header", "content", "actions"],
+      "implementationStatus": "required_uikit_addition",
+      "notes": ["A dedicated production UIKit Drawer must be implemented."]
+    },
+    {
+      "semanticWidget": "Form",
+      "uikitComponent": "FormJSON",
+      "path": "uikit-main/FormJSON/FormJSON.tsx",
+      "safeSemanticProps": ["id", "idSeparator", "formSchema", "formInitialData", "submitLabel", "showStepValidation", "initialStep", "isLiveValid"],
+      "integrationProps": ["onValidationForm", "onSubmitForm", "onChangeNextStep", "onBlur", "onChange"],
+      "forbiddenGeneratedProps": ["children", "customValidateFunction", "externalValidator", "className", "style"],
+      "anchorTargets": ["fields", "validation", "actions"]
+    },
+    {
+      "semanticWidget": "StatsCards",
+      "uikitComponent": "StatsCards",
+      "path": "uikit-main/StatsCards/StatsCards.tsx",
+      "safeSemanticProps": ["metrics", "density", "showTrend", "drillTargets"],
+      "integrationProps": ["onDrill"],
+      "forbiddenGeneratedProps": ["customReactNode", "customEventHandler", "style", "className"],
+      "anchorTargets": ["metrics", "trends", "drill_targets"],
+      "implementationStatus": "required_uikit_addition"
+    },
+    {
+      "semanticWidget": "Tabs",
+      "uikitComponent": "DialogTabs|TabMenuNavLink",
+      "path": "uikit-main/DialogTabs/DialogTabs.tsx",
+      "safeSemanticProps": ["title", "data", "isVisible", "isSave", "items", "context"],
+      "integrationProps": ["setHide"],
+      "forbiddenGeneratedProps": ["customReactNode", "customEventHandler", "style", "className"],
+      "anchorTargets": ["tab_list", "tab_panel"]
+    }
+  ],
+  "requiredUikitAdditions": [
+    {
+      "semanticWidget": "ButtonDrop",
+      "status": "required",
+      "requiredFor": "TableControls primary CTA with dropdown actions",
+      "expectedPath": "uikit-main/ButtonDrop/ButtonDrop.tsx"
+    },
+    {
+      "semanticWidget": "Drawer",
+      "status": "required",
+      "requiredFor": "Right-side full-height modal drawer",
+      "expectedPath": "uikit-main/Drawer/Drawer.tsx"
+    },
+    {
+      "semanticWidget": "StatsCards",
+      "status": "required",
+      "requiredFor": "Metric summary widget in platform MVP set",
+      "expectedPath": "uikit-main/StatsCards/StatsCards.tsx"
+    }
+  ]
+}

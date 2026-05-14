@@ -1,0 +1,41 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ * Generated from Figma Variables
+ *
+ * Component: status
+ */
+@import './colors.scss';
+
+:root {
+  --status-success-background-default: var(--shamrock-200);
+  --status-success-text-default: var(--shamrock-900);
+  --status-success-icon-default: var(--shamrock-900);
+  --status-warning-background-default: var(--yellow-200);
+  --status-warning-text-default: var(--yellow-900);
+  --status-warning-icon-default: var(--yellow-900);
+  --status-degradation-background-default: var(--orange-200);
+  --status-degradation-text-default: var(--orange-900);
+  --status-degradation-icon-default: var(--orange-900);
+  --status-critical-background-default: var(--red-400);
+  --status-critical-text-default: var(--red-900);
+  --status-critical-icon-default: var(--red-900);
+  --status-info-background-default: var(--cornflower-blue-200);
+  --status-info-text-default: var(--cornflower-blue-900);
+  --status-info-icon-default: var(--cornflower-blue-900);
+  --status-maintenance-background-default: var(--warm-gray-200);
+  --status-maintenance-text-default: var(--warm-gray-900);
+  --status-maintenance-icon-default: var(--warm-gray-900);
+  --status-additional-background-default: var(--bondi-blue-200);
+  --status-additional-text-default: var(--bondi-blue-900);
+  --status-additional-icon-default: var(--bondi-blue-900);
+  --status-stop-background-default: var(--cool-gray-600);
+  --status-stop-text-default: var(--white-950);
+  --status-stop-icon-default: var(--white-950);
+  --status-new-background-default: var(--java-200);
+  --status-new-text-default: var(--java-900);
+  --status-new-icon-default: var(--java-900);
+  --status-load-background-default: var(--tory-blue-200);
+  --status-load-text-default: var(--tory-blue-900);
+  --status-load-icon-default: var(--tory-blue-900);
+  --status-load-stroke-default: var(--tory-blue-650);
+}

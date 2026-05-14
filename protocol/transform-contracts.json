@@ -1,0 +1,226 @@
+{
+  "contracts": [
+    {
+      "id": "increase_density",
+      "version": "1.0.0",
+      "intent": "increase_density",
+      "target": {
+        "allowedNodeRoles": ["table_controls", "table_controls_left", "filters", "primary_filter", "toolbar", "data_table", "form_input", "metric_summary", "tabs_region"],
+        "allowedWidgetTypes": ["TableControls", "DataTable", "Form", "StatsCards", "Tabs"]
+      },
+      "preconditions": ["target_node_exists", "target_widget_supports_transform"],
+      "effects": [
+        { "type": "set_widget_variant", "preferredVariants": ["compact", "collapsible"] },
+        { "type": "reduce_visual_priority", "targetRole": "secondary_controls" }
+      ],
+      "invariants": ["preserve_semantic_node_id", "do_not_set_runtime_state", "do_not_emit_frontend_code"],
+      "reversibility": "reversible",
+      "reverseStrategy": "restore_previous_widget_variant_and_visual_priority",
+      "explainability": {
+        "success": "Increased density by selecting a compact-capable variant and reducing secondary visual weight.",
+        "failure": "Target widget or node does not support density changes."
+      },
+      "validation": {
+        "failureReasons": {
+          "unsupportedTarget": "Target is not a density-capable semantic node or widget.",
+          "unsupportedWidget": "Widget does not allow increase_density."
+        }
+      },
+      "revisionLinkage": { "linkComment": true, "markCommentApplied": true }
+    },
+    {
+      "id": "simplify_filters",
+      "version": "1.0.0",
+      "intent": "simplify_filters",
+      "target": {
+        "allowedNodeRoles": ["table_controls", "table_controls_left", "filters", "primary_filter", "secondary_controls"],
+        "allowedWidgetTypes": ["TableControls"]
+      },
+      "preconditions": ["target_node_exists", "target_widget_supports_transform"],
+      "effects": [
+        { "type": "collapse_node", "targetRole": "secondary_controls" },
+        { "type": "prioritize_node", "targetRole": "primary_filter" },
+        { "type": "set_widget_variant", "preferredVariants": ["compact", "collapsible"] }
+      ],
+      "invariants": ["preserve_primary_search_visibility", "preserve_semantic_node_id", "do_not_set_runtime_state"],
+      "reversibility": "reversible",
+      "reverseStrategy": "restore_collapsed_nodes_and_previous_variant",
+      "explainability": {
+        "success": "Simplified filters by prioritizing primary search and collapsing secondary controls.",
+        "failure": "Target is not a TableControls filter node."
+      },
+      "validation": {
+        "failureReasons": {
+          "unsupportedTarget": "Only filter semantic nodes can be simplified.",
+          "unsupportedWidget": "Only TableControls supports simplify_filters in MVP."
+        }
+      },
+      "revisionLinkage": { "linkComment": true, "markCommentApplied": true }
+    },
+    {
+      "id": "collapse_secondary",
+      "version": "1.0.0",
+      "intent": "collapse_secondary",
+      "target": {
+        "allowedNodeRoles": ["secondary_controls", "toolbar", "filters", "table_controls_left", "table_controls_right", "secondary_action"],
+        "allowedWidgetTypes": ["TableControls", "DataTable", "Drawer", "Form"]
+      },
+      "preconditions": ["target_node_exists", "target_widget_supports_transform"],
+      "effects": [
+        { "type": "collapse_node", "targetRole": "secondary_controls" }
+      ],
+      "invariants": ["preserve_primary_controls", "preserve_semantic_node_id", "do_not_set_runtime_state"],
+      "reversibility": "reversible",
+      "reverseStrategy": "expand_previously_collapsed_secondary_nodes",
+      "explainability": {
+        "success": "Collapsed secondary controls while preserving primary workflow controls.",
+        "failure": "Target has no collapsible secondary controls."
+      },
+      "validation": {
+        "failureReasons": {
+          "unsupportedTarget": "Target role is not collapsible as secondary controls.",
+          "unsupportedWidget": "Widget does not support collapse_secondary."
+        }
+      },
+      "revisionLinkage": { "linkComment": true, "markCommentApplied": true }
+    },
+    {
+      "id": "prioritize_search",
+      "version": "1.0.0",
+      "intent": "prioritize_search",
+      "target": {
+        "allowedNodeRoles": ["table_controls", "table_controls_left", "filters", "primary_filter"],
+        "allowedWidgetTypes": ["TableControls"]
+      },
+      "preconditions": ["target_node_exists", "target_widget_supports_transform"],
+      "effects": [
+        { "type": "prioritize_node", "targetRole": "primary_filter" },
+        { "type": "ensure_node_visible", "targetRole": "primary_filter" }
+      ],
+      "invariants": ["preserve_primary_search_visibility", "do_not_set_runtime_state"],
+      "reversibility": "reversible",
+      "reverseStrategy": "restore_previous_priority_order",
+      "explainability": {
+        "success": "Prioritized search and kept it visible for the primary workflow.",
+        "failure": "Target does not contain a primary search/filter node."
+      },
+      "validation": {
+        "failureReasons": {
+          "unsupportedTarget": "Search prioritization requires a filter target.",
+          "unsupportedWidget": "Only TableControls supports prioritize_search in MVP."
+        }
+      },
+      "revisionLinkage": { "linkComment": true, "markCommentApplied": true }
+    },
+    {
+      "id": "move_to_sidebar",
+      "version": "1.0.0",
+      "intent": "move_to_sidebar",
+      "target": {
+        "allowedNodeRoles": ["filters"],
+        "allowedWidgetTypes": ["TableControls"]
+      },
+      "preconditions": ["target_node_exists", "target_widget_supports_transform", "archetype_allows_sidebar_filters"],
+      "effects": [
+        { "type": "change_layout_semantic_role", "to": "persistent_filters" },
+        { "type": "set_widget_variant", "preferredVariants": ["sidebar"] }
+      ],
+      "invariants": ["preserve_semantic_node_id", "do_not_set_runtime_state"],
+      "reversibility": "reversible",
+      "reverseStrategy": "restore_previous_layout_role_and_variant",
+      "explainability": {
+        "success": "Moved filters into a sidebar variant while preserving filter semantics.",
+        "failure": "Current layout keeps filters inside TableControls; sidebar filters are not part of the production-ready pattern."
+      },
+      "validation": {
+        "failureReasons": {
+          "unsupportedTarget": "Only filter nodes can move to sidebar.",
+          "archetypeRestriction": "The active screen archetype forbids sidebar filters."
+        }
+      },
+      "revisionLinkage": { "linkComment": true, "markCommentApplied": true }
+    },
+    {
+      "id": "reduce_visual_weight",
+      "version": "1.0.0",
+      "intent": "reduce_visual_weight",
+      "target": {
+        "allowedNodeRoles": ["secondary_controls", "toolbar", "data_display", "metric_summary", "details_overlay"],
+        "allowedWidgetTypes": ["TableControls", "DataTable", "Drawer", "Form", "StatsCards", "Tabs"]
+      },
+      "preconditions": ["target_node_exists", "target_widget_supports_transform"],
+      "effects": [
+        { "type": "reduce_visual_priority" }
+      ],
+      "invariants": ["preserve_semantic_node_id", "preserve_interaction_contract", "do_not_emit_frontend_code"],
+      "reversibility": "reversible",
+      "reverseStrategy": "restore_previous_visual_priority",
+      "explainability": {
+        "success": "Reduced visual weight without changing semantic capability.",
+        "failure": "Target widget does not support visual weight reduction."
+      },
+      "validation": {
+        "failureReasons": {
+          "unsupportedTarget": "Target role does not support visual weight reduction.",
+          "unsupportedWidget": "Widget does not allow reduce_visual_weight."
+        }
+      },
+      "revisionLinkage": { "linkComment": true, "markCommentApplied": true }
+    },
+    {
+      "id": "switch_widget_variant",
+      "version": "1.0.0",
+      "intent": "switch_widget_variant",
+      "target": {
+        "allowedNodeRoles": ["filters", "data_table", "form_input", "metric_summary", "tabs_region", "details_overlay"],
+        "allowedWidgetTypes": ["TableControls", "DataTable", "Drawer", "Form", "StatsCards", "Tabs", "SidebarMinibar"]
+      },
+      "preconditions": ["target_node_exists", "target_widget_supports_transform", "requested_variant_exists"],
+      "effects": [
+        { "type": "set_widget_variant", "fromRequest": true }
+      ],
+      "invariants": ["preserve_semantic_node_id", "preserve_interaction_contract", "do_not_set_runtime_state"],
+      "reversibility": "reversible",
+      "reverseStrategy": "restore_previous_widget_variant",
+      "explainability": {
+        "success": "Switched widget variant through the widget registry.",
+        "failure": "Requested variant is not declared by the widget definition."
+      },
+      "validation": {
+        "failureReasons": {
+          "unsupportedVariant": "Requested variant is not available for the target widget.",
+          "unsupportedWidget": "Widget does not allow switch_widget_variant."
+        }
+      },
+      "revisionLinkage": { "linkComment": true, "markCommentApplied": true }
+    },
+    {
+      "id": "add_missing_capability_placeholder",
+      "version": "1.0.0",
+      "intent": "add_missing_capability_placeholder",
+      "target": {
+        "allowedNodeRoles": ["screen", "feature", "primary_content", "persistent_filters", "contextual_drawer", "tabs_region"],
+        "allowedWidgetTypes": ["MissingCapabilityWidget"]
+      },
+      "preconditions": ["requested_capability_missing_from_registry"],
+      "effects": [
+        { "type": "add_placeholder_capability", "widgetType": "MissingCapabilityWidget" },
+        { "type": "link_missing_capability_request" }
+      ],
+      "invariants": ["preserve_semantic_intent", "do_not_fake_unsupported_interactions", "do_not_emit_frontend_code"],
+      "reversibility": "reversible",
+      "reverseStrategy": "remove_placeholder_when_real_capability_is_available_or_request_is_rejected",
+      "explainability": {
+        "success": "Created a MissingCapabilityWidget placeholder to preserve unsupported UX intent.",
+        "failure": "Requested capability already exists or placeholder target is invalid."
+      },
+      "validation": {
+        "failureReasons": {
+          "capabilityExists": "Requested capability exists in widget registry.",
+          "invalidPlaceholderTarget": "Placeholder target must be a screen, feature or compatible region."
+        }
+      },
+      "revisionLinkage": { "linkComment": true, "markCommentApplied": false }
+    }
+  ]
+}

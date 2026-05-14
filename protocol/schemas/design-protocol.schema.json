@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://semantic-ui-evolution.local/schemas/design-protocol.schema.json",
+  "title": "DesignProtocol",
+  "type": "object",
+  "required": [
+    "protocol",
+    "semanticRoles",
+    "widgetDefinitions",
+    "layoutSemantics",
+    "screenArchetypes",
+    "heuristics",
+    "compatibilityRules",
+    "explainabilityTemplates"
+  ],
+  "properties": {
+    "protocol": {
+      "type": "object",
+      "required": ["name", "version", "compatibility"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "compatibility": { "type": "object" }
+      }
+    },
+    "semanticRoles": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["kind", "purpose"],
+        "properties": {
+          "kind": { "enum": ["container", "region", "node", "widget"] },
+          "purpose": { "type": "string" }
+        }
+      }
+    },
+    "widgetDefinitions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/widgetDefinition" }
+    },
+    "layoutSemantics": { "type": "object" },
+    "screenArchetypes": { "type": "object" },
+    "heuristics": { "type": "array" },
+    "compatibilityRules": { "type": "object" },
+    "explainabilityTemplates": { "type": "object" }
+  },
+  "$defs": {
+    "widgetDefinition": {
+      "type": "object",
+      "required": [
+        "widgetType",
+        "purpose",
+        "supportedInteractions",
+        "variants",
+        "defaultVariant",
+        "semanticNodes",
+        "allowedTransforms",
+        "constraints",
+        "discouragedUsage",
+        "rendererContract",
+        "explainability"
+      ],
+      "properties": {
+        "widgetType": { "type": "string" },
+        "purpose": { "type": "string" },
+        "supportedInteractions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "variants": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "defaultVariant": { "type": "string" },
+        "semanticNodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["suffix", "role", "targetable"],
+            "properties": {
+              "suffix": { "type": "string" },
+              "role": { "type": "string" },
+              "targetable": { "type": "boolean" }
+            }
+          }
+        },
+        "allowedTransforms": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "discouragedUsage": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "rendererContract": { "type": "string" },
+        "explainability": { "type": "object" }
+      }
+    }
+  }
+}

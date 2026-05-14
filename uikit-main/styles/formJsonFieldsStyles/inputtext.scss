@@ -1,0 +1,104 @@
+.p-inputtext{
+    padding: 0.5rem;
+    background: var(--input-background-default);
+    border: 1px solid var(--input-border-default);
+    border-radius: var(--border-radius-m);
+    color: var(--input-text-filled);
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+
+    &:enabled:hover {
+        border-color: var(--input-border-hover);
+    }
+
+    &:enabled:focus {
+        border-color: var(--input-border-focused);
+        box-shadow: 0 0 0 2px var(--effects-status-focus-default);
+        outline: 0 none;
+        outline-offset: 0;
+        &.p-invalid.p-component {
+            box-shadow: 0 0 0 2px var(--effects-status-focus-error);
+        }
+        &.p-warning.p-component {
+            box-shadow: 0 0 0 2px var(--effects-status-focus-warning);
+        }
+    }
+
+    &:disabled {
+        background: var(--input-background-disabled);
+        border: 1px solid var(--input-border-disabled);
+        color: var(--input-text-disabled);
+        &::placeholder {
+            color: var(--input-text-disabled);
+        }
+    }
+
+    &.p-invalid.p-component {
+        border-color: var(--input-border-error);
+    }
+
+    &.p-warning.p-component {
+        border-color: var(--input-border-warning);
+    }
+
+    &.p-inputtext-sm {
+        padding: 0.4375rem;
+        font-size: 0.875rem;
+    }
+
+    &.p-inputtext-lg {
+        padding: 0.625rem;
+        font-size: 1.25rem;
+    }
+}
+
+.p-input-icon{
+
+    &-left > i:first-of-type,
+    &-left > svg:first-of-type,
+    &-left > .p-input-prefix {
+        left: 0.5rem;
+        color: var(--input-icon-default);
+    }
+
+    &-left > .p-inputtext {
+        padding-left: 2rem;
+    }
+
+    &-left.p-float-label > label {
+        left: 2rem;
+    }
+
+    &-right > i:last-of-type,
+    &-right > svg:last-of-type,
+    &-right > .p-input-suffix {
+        right: 0.5rem;
+        color: var(--input-icon-default);
+    }
+
+    &-right > .p-inputtext {
+        padding-right: 2rem;
+    }
+
+    &-left:has(.p-inputtext:disabled),
+    &-right:has(.p-inputtext:disabled) {
+        i, svg, .p-input-prefix, .p-input-suffix {
+            color: var(--input-icon-disabled);
+        }
+    }
+
+}
+
+/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+:input-placeholder {
+    color: var(--input-text-default);
+}
+
+:placeholder {
+    color: var(--input-text-default);
+}
+
+::placeholder {
+    color: var(--input-text-default);
+}

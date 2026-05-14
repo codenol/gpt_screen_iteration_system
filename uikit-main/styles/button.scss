@@ -1,0 +1,232 @@
+@mixin apply-button-tokens($variant, $intent) {
+    background-color: var(--button-#{$variant}-#{$intent}-background-default);
+    border-color: var(--button-#{$variant}-#{$intent}-border-default);
+    color: var(--button-#{$variant}-#{$intent}-text-default);
+    &:not(:disabled):not(.p-button-loading):hover {
+        background-color: var(--button-#{$variant}-#{$intent}-background-hover);
+        border-color: var(--button-#{$variant}-#{$intent}-border-hover);
+        color: var(--button-#{$variant}-#{$intent}-text-hover);
+    }
+
+    &:not(:disabled):active {
+        background-color: var(--button-#{$variant}-#{$intent}-background-active);
+        border-color: var(--button-#{$variant}-#{$intent}-border-active);
+        color: var(--button-#{$variant}-#{$intent}-text-active);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--button-#{$variant}-#{$intent}-border-focus);
+    }
+
+    &:disabled {
+        opacity: 1;
+        background-color: var(--button-#{$variant}-#{$intent}-background-disabled);
+        border-color: var(--button-#{$variant}-#{$intent}-border-disabled);
+        color: var(--button-#{$variant}-#{$intent}-text-disabled);
+    }
+}
+
+@mixin apply-button-icon-action-tokens($intent) {
+    color: var(--button-icon-action-#{$intent}-icon-default);
+
+    &:not(:disabled):not(:active):not(.p-button-loading):hover {
+        color: var(--button-icon-action-#{$intent}-icon-hover);
+    }
+    
+    &:not(:disabled):active {
+        color: var(--button-icon-action-#{$intent}-icon-active);
+    }
+    
+    &:focus {
+        color: var(--button-icon-action-#{$intent}-icon-focus);
+    }
+
+    &:disabled {
+        color: var(--button-icon-action-#{$intent}-icon-disabled);
+    }
+}
+
+.p-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-spacer-450) var(--spacing-spacer-800);
+    border-radius: var(--border-radius-m);
+    line-height: 16px;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    gap: var(--spacing-spacer-300); // 6px
+
+    &.icon-action {
+        padding: 0px !important;
+        font-size: 16px !important;
+        border: none !important;
+        border-radius: 0px !important;
+        background: transparent !important;
+        height: auto !important;
+        width: auto !important;
+        box-shadow: none !important;
+
+        .p-button-label {
+            display: none !important;
+        }
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        &.p-button-sm {
+            font-size: 12px !important;
+
+            svg {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        &.p-button-lg {
+            font-size: 20px !important;
+
+            svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        &:not(.p-button-danger):not(.p-button-success):not(.p-button-info):not(.p-button-warning):not(.p-button-secondary) {
+            @include apply-button-icon-action-tokens('accent');
+        }
+        &.p-button-danger { @include apply-button-icon-action-tokens('danger'); }
+        &.p-button-warning { @include apply-button-icon-action-tokens('warning'); }
+        &.p-button-success { @include apply-button-icon-action-tokens('success'); }
+        &.p-button-info { @include apply-button-icon-action-tokens('info'); }
+        &.p-button-secondary { @include apply-button-icon-action-tokens('secondary'); }
+    }
+
+    &:not(.p-button-sm):not(.p-button-lg) {
+        // large by default
+        height: 32px;
+        padding: var(--spacing-spacer-400) var(--spacing-spacer-1000); // 8px 20px
+        font-size: 14px;
+        font-weight: 500;
+        
+        &.p-button-icon-only {
+            width: 32px;
+            padding: var(--spacing-spacer-400);
+            gap: 0;
+
+            .p-button-label {
+              display: none !important;
+              visibility: hidden !important;
+              width: 0 !important;
+              height: 0 !important;
+              padding: 0 !important;
+              margin: 0 !important;
+            }
+        }
+    }
+
+    // FILLED
+    &:not(.p-button-outlined):not(.p-button-text):not(.p-button-link):not(.icon-action) {
+        &:not(.p-button-danger):not(.p-button-success):not(.p-button-info):not(.p-button-warning):not(.p-button-secondary) {
+            @include apply-button-tokens('filled', 'accent');
+        }
+        &.p-button-danger { @include apply-button-tokens('filled', 'danger'); }
+        &.p-button-warning { @include apply-button-tokens('filled', 'warning'); }
+        &.p-button-success { @include apply-button-tokens('filled', 'success'); }
+        &.p-button-info { @include apply-button-tokens('filled', 'info'); }
+        &.p-button-secondary { @include apply-button-tokens('filled', 'secondary'); }
+    }
+
+    &.p-button-lg {
+        height: 32px;
+        padding: var(--spacing-spacer-400) var(--spacing-spacer-1000); // 8px 20px
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    &.p-button-sm {
+        height: var(--spacing-600); // 24px
+        padding: var(--spacing-spacer-200) var(--spacing-spacer-600); // 4px 12px
+        font-size: 12px;
+        font-weight: 400;
+        gap: var(--spacing-spacer-200); // 4px
+        
+        &.p-button-icon-only {
+            width: var(--spacing-600);
+            padding: var(--spacing-spacer-400);
+            gap: 0;
+
+            .p-button-label {
+              display: none !important;
+              visibility: hidden !important;
+              width: 0 !important;
+              height: 0 !important;
+              padding: 0 !important;
+              margin: 0 !important;
+            }
+        }
+    }
+
+    // OUTLINE
+    &.p-button-outlined {
+        border: 1px solid;
+
+        &:not(.p-button-danger):not(.p-button-success):not(.p-button-info):not(.p-button-warning):not(.p-button-secondary) {
+            @include apply-button-tokens('outline', 'accent');
+        }
+        &.p-button-danger { @include apply-button-tokens('outline', 'danger'); }
+        &.p-button-warning { @include apply-button-tokens('outline', 'warning'); }
+        &.p-button-success { @include apply-button-tokens('outline', 'success'); }
+        &.p-button-info { @include apply-button-tokens('outline', 'info'); }
+        &.p-button-secondary { @include apply-button-tokens('outline', 'secondary'); }
+    }
+
+    // GHOST
+    &.p-button-text{
+        &:not(.p-button-danger):not(.p-button-success):not(.p-button-info):not(.p-button-warning):not(.p-button-secondary) {
+            @include apply-button-tokens('ghost', 'accent');
+        }
+        &.p-button-danger { @include apply-button-tokens('ghost', 'danger'); }
+        &.p-button-warning { @include apply-button-tokens('ghost', 'warning'); }
+        &.p-button-success { @include apply-button-tokens('ghost', 'success'); }
+        &.p-button-info { @include apply-button-tokens('ghost', 'info'); }
+        &.p-button-secondary { @include apply-button-tokens('ghost', 'secondary'); }
+    }
+    &.p-button-link {
+        &:not(.p-button-danger):not(.p-button-success):not(.p-button-info):not(.p-button-warning):not(.p-button-secondary) {
+            @include apply-button-tokens('ghost', 'accent');
+        }
+        &.p-button-danger { @include apply-button-tokens('ghost', 'danger'); }
+        &.p-button-warning { @include apply-button-tokens('ghost', 'warning'); }
+        &.p-button-success { @include apply-button-tokens('ghost', 'success'); }
+        &.p-button-info { @include apply-button-tokens('ghost', 'info'); }
+        &.p-button-secondary { @include apply-button-tokens('ghost', 'secondary'); }
+    }
+
+    // Доработка: Large + Ghost + Icon-only
+    &:not(.p-button-sm):not(.icon-action).p-button-text.p-button-icon-only,
+    &.p-button-lg.p-button-text.p-button-icon-only,
+    &:not(.p-button-sm).p-button-link.p-button-icon-only,
+    &.p-button-lg.p-button-link.p-button-icon-only {
+        .p-button-icon {
+            line-height: 20px;
+            width: 20px;
+            height: 20px;
+            // Для SVG иконок
+            svg {
+                width: 20px !important;
+                height: 20px !important;
+                min-width: 20px;
+                min-height: 20px;
+            }
+            
+            // Для PrimeIcons (шрифтовые иконки)
+            &.pi {
+                font-size: 20px !important;
+            }
+        }
+        padding: var(--spacing-spacer-300);
+    }
+}

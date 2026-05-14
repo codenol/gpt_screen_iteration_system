@@ -1,0 +1,49 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ * Generated from Figma Variables
+ *
+ * Component: sidebar
+ */
+@import './colors.scss';
+
+:root {
+  --sidebar-menuitem-background-default: var(--white-0-t);
+  --sidebar-menuitem-background-hover: var(--cool-gray-100);
+  --sidebar-menuitem-background-active: var(--cool-gray-100);
+  --sidebar-menuitem-background-active-hover: var(--bondi-blue-500);
+  --sidebar-menuitem-border-default: var(--white-0-t);
+  --sidebar-menuitem-border-hover: var(--white-0-t);
+  --sidebar-menuitem-border-active: var(--bondi-blue-600);
+  --sidebar-menuitem-border-active-hover: var(--white-0-t);
+  --sidebar-menuitem-text-default: var(--cool-gray-800);
+  --sidebar-menuitem-text-hover: var(--cool-gray-800);
+  --sidebar-menuitem-text-active: var(--cool-gray-800);
+  --sidebar-menuitem-text-active-hover: var(--white-950);
+  --sidebar-menuitem-icon-default: var(--cool-gray-800);
+  --sidebar-menuitem-icon-hover: var(--cool-gray-800);
+  --sidebar-menuitem-icon-active: var(--cool-gray-800);
+  --sidebar-menuitem-icon-active-hover: var(--white-950);
+  --sidebar-menubutton-background-default: var(--white-0-t);
+  --sidebar-menubutton-background-hover: var(--cool-gray-100);
+  --sidebar-menubutton-background-active: var(--cool-gray-100);
+  --sidebar-menubutton-background-active-hover: var(--bondi-blue-500);
+  --sidebar-menubutton-border-default: var(--white-0-t);
+  --sidebar-menubutton-border-hover: var(--white-0-t);
+  --sidebar-menubutton-border-active: var(--bondi-blue-600);
+  --sidebar-menubutton-border-active-hover: var(--white-0-t);
+  --sidebar-menubutton-icon-default: var(--cool-gray-700);
+  --sidebar-menubutton-icon-hover: var(--cool-gray-700);
+  --sidebar-menubutton-icon-active: var(--cool-gray-700);
+  --sidebar-menubutton-icon-active-hover: var(--white-950);
+  --sidebar-background-default: var(--white-550-t);
+  --sidebar-border-default: var(--cool-gray-200);
+  --sidebar-text-default: var(--cool-gray-800);
+  --sidebar-divider-horizontal-default: var(--cool-gray-800);
+  --sidebar-logo-text-default: var(--tory-blue-850);
+  --sidebar-logo-accent-default: var(--java-550);
+  --sidebar-avatar-background-default: var(--cornflower-blue-550);
+  --sidebar-avatar-text-default: var(--white-950);
+  --sidebar-status-indicator-default: var(--green-600);
+  --sidebar-status-indicator-lock: var(--cool-gray-300);
+  --sidebar-status-indicator-danger: var(--red-650);
+}

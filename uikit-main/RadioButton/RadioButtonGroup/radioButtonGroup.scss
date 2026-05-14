@@ -1,0 +1,14 @@
+.radio-button-group {
+    display: flex;
+
+    &-horizontal {
+        flex-direction: row;
+        gap: 12px;
+    }
+
+    &-vertical {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+}

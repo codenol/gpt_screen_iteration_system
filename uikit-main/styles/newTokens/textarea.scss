@@ -1,0 +1,45 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ * Generated from Figma Variables
+ *
+ * Component: textarea
+ */
+@import './colors.scss';
+
+:root {
+  --textarea-background-default: var(--white-950);
+  --textarea-background-hover: var(--white-950);
+  --textarea-background-focused: var(--white-950);
+  --textarea-background-filled: var(--white-950);
+  --textarea-background-warning: var(--white-950);
+  --textarea-background-error: var(--white-950);
+  --textarea-background-disabled: var(--cool-gray-100);
+  --textarea-border-default: var(--cool-gray-200);
+  --textarea-border-hover: var(--bondi-blue-600);
+  --textarea-border-focused: var(--bondi-blue-500);
+  --textarea-border-filled: var(--cool-gray-200);
+  --textarea-border-warning: var(--orange-600);
+  --textarea-border-error: var(--red-600);
+  --textarea-border-disabled: var(--cool-gray-200);
+  --textarea-text-default: var(--cool-gray-600);
+  --textarea-text-hover: var(--cool-gray-600);
+  --textarea-text-focused: var(--cool-gray-600);
+  --textarea-text-filled: var(--cool-gray-800);
+  --textarea-text-warning: var(--cool-gray-800);
+  --textarea-text-error: var(--cool-gray-800);
+  --textarea-text-disabled: var(--cool-gray-400);
+  --textarea-icon-copy-default: var(--cool-gray-400);
+  --textarea-icon-copy-hover: var(--cool-gray-700);
+  --textarea-icon-copy-success: var(--cool-gray-700);
+  --textarea-icon-copy-disabled: var(--cool-gray-200);
+  --textarea-lable-text-default: var(--cool-gray-800);
+  --textarea-lable-icon-info: var(--cornflower-blue-550);
+  --textarea-hint-default: var(--cool-gray-600);
+  --textarea-hint-hover: var(--cool-gray-600);
+  --textarea-hint-focused: var(--cool-gray-600);
+  --textarea-hint-filled: var(--cool-gray-800);
+  --textarea-hint-warning: var(--orange-600);
+  --textarea-hint-error: var(--red-600);
+  --textarea-hint-disabled: var(--cool-gray-400);
+  --textarea-icon-resize-default: var(--cool-gray-400);
+}
