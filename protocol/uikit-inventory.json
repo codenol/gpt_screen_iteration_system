@@ -1,0 +1,370 @@
+{
+  "source": "uikit-main",
+  "generatedAt": "2026-05-14T17:37:09.529Z",
+  "totalComponents": 33,
+  "components": [
+    {
+      "name": "AbsoluteTooltip",
+      "path": "uikit-main/AbsoluteTooltip",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "AbsoluteTooltip.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "Accordion",
+      "path": "uikit-main/Accordion",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "Accordion.tsx",
+        "accordion.module.scss",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "BreadCrumbs",
+      "path": "uikit-main/BreadCrumbs",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "BreadCrumbs.tsx",
+        "breadcrumbs.scss",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "ButtonDrop",
+      "path": "uikit-main/ButtonDrop",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "ButtonDrop.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "Checkbox",
+      "path": "uikit-main/Checkbox",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "Checkbox.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "CombinedNavMenu",
+      "path": "uikit-main/CombinedNavMenu",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "CombinedNavMenu.tsx",
+        "combinedNavMenu.scss",
+        "combinedNavMenu.types.ts",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "CompanyProgressSpinner",
+      "path": "uikit-main/CompanyProgressSpinner",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "CompanyProgressSpinner.tsx",
+        "index.scss",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "DataTableDynamic",
+      "path": "uikit-main/DataTableDynamic",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "DataTableDynamic.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "DateRangeInput",
+      "path": "uikit-main/DateRangeInput",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "DateRangeInput.tsx",
+        "dateRangeInput.scss",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "DialogTabs",
+      "path": "uikit-main/DialogTabs",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "DialogTabs.tsx",
+        "dialogTabs.scss",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "DragNDrop",
+      "path": "uikit-main/DragNDrop",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "DragNDrop.tsx",
+        "dragndrop.scss",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "Drawer",
+      "path": "uikit-main/Drawer",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "Drawer.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "FormJSON",
+      "path": "uikit-main/FormJSON",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "CustomFieldTemplate.tsx",
+        "FormJSON.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "GenomeBreadCrumbs",
+      "path": "uikit-main/GenomeBreadCrumbs",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "GenomeBreadCrumbs.tsx",
+        "genomeBreadCrumbs.scss",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "Grid",
+      "path": "uikit-main/Grid",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "Grid.tsx",
+        "grid.scss",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "IconsComponent",
+      "path": "uikit-main/IconsComponent",
+      "indexExport": true,
+      "componentFile": false,
+      "files": [
+        "IconAcceptCircle.tsx",
+        "IconAlertTriangle.tsx",
+        "IconCheckCircle2.tsx",
+        "IconChevronCircle.tsx",
+        "IconCloseCircle.tsx",
+        "IconInfo.tsx",
+        "IconInfoCircle.tsx",
+        "IconMinus.tsx",
+        "IconScanFace.tsx",
+        "IconWarningCircle.tsx",
+        "IconX.tsx",
+        "IconXCircle.tsx",
+        "IconsComponent.types.ts",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "KeyValueItem",
+      "path": "uikit-main/KeyValueItem",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "KeyValueItem.tsx",
+        "index.ts",
+        "keyValueItem.scss"
+      ]
+    },
+    {
+      "name": "Message",
+      "path": "uikit-main/Message",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "Message.tsx",
+        "index.ts",
+        "message.scss"
+      ]
+    },
+    {
+      "name": "Messages",
+      "path": "uikit-main/Messages",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "Messages.tsx",
+        "index.ts",
+        "messages.scss"
+      ]
+    },
+    {
+      "name": "MultiSelect",
+      "path": "uikit-main/MultiSelect",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "MultiSelect.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "OverlayMessage",
+      "path": "uikit-main/OverlayMessage",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "OverlayMessage.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "RadioButton",
+      "path": "uikit-main/RadioButton",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "RadioButton.tsx",
+        "index.ts",
+        "radioButton.helpers.ts"
+      ]
+    },
+    {
+      "name": "StatsCards",
+      "path": "uikit-main/StatsCards",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "StatsCards.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "StatusBadge",
+      "path": "uikit-main/StatusBadge",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "StatusBadge.tsx",
+        "index.ts",
+        "statusBadge.scss"
+      ]
+    },
+    {
+      "name": "StepWizard",
+      "path": "uikit-main/StepWizard",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "StepWizard.tsx",
+        "index.ts",
+        "stepWizard.scss"
+      ]
+    },
+    {
+      "name": "SvgIcon",
+      "path": "uikit-main/SvgIcon",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "SvgIcon.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "TableColumnsConfiguration",
+      "path": "uikit-main/TableColumnsConfiguration",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "TableColumnsConfiguration.tsx",
+        "index.ts",
+        "tableColumnsConfiguration.scss",
+        "tableColumnsConfiguration.types.ts"
+      ]
+    },
+    {
+      "name": "ToastContent",
+      "path": "uikit-main/ToastContent",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "ToastContent.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "Toggletip",
+      "path": "uikit-main/Toggletip",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "Toggletip.tsx",
+        "index.ts",
+        "toggletip.scss"
+      ]
+    },
+    {
+      "name": "Tooltip",
+      "path": "uikit-main/Tooltip",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "Tooltip.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "Tree",
+      "path": "uikit-main/Tree",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "Tree.tsx",
+        "index.ts",
+        "tree.scss"
+      ]
+    },
+    {
+      "name": "UIkitProvider",
+      "path": "uikit-main/UIkitProvider",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "UIkitProvider.tsx",
+        "index.ts"
+      ]
+    },
+    {
+      "name": "ViewsErrorBoundary",
+      "path": "uikit-main/ViewsErrorBoundary",
+      "indexExport": true,
+      "componentFile": true,
+      "files": [
+        "ViewsErrorBoundary.tsx",
+        "index.ts"
+      ]
+    }
+  ]
+}
