@@ -135,8 +135,8 @@
       "integrationProps": ["onClose", "onAction"],
       "forbiddenGeneratedProps": ["customReactNode", "customEventHandler", "style", "className"],
       "anchorTargets": ["header", "content", "actions"],
-      "implementationStatus": "required_uikit_addition",
-      "notes": ["A dedicated production UIKit Drawer must be implemented."]
+      "implementationStatus": "implemented",
+      "notes": ["Dedicated right-side full-height modal drawer implemented."]
     },
     {
       "semanticWidget": "Form",
@@ -155,7 +155,7 @@
       "integrationProps": ["onDrill"],
       "forbiddenGeneratedProps": ["customReactNode", "customEventHandler", "style", "className"],
       "anchorTargets": ["metrics", "trends", "drill_targets"],
-      "implementationStatus": "required_uikit_addition"
+      "implementationStatus": "implemented"
     },
     {
       "semanticWidget": "Tabs",
@@ -170,19 +170,19 @@
   "requiredUikitAdditions": [
     {
       "semanticWidget": "ButtonDrop",
-      "status": "required",
+      "status": "implemented",
       "requiredFor": "TableControls primary CTA with dropdown actions",
       "expectedPath": "uikit-main/ButtonDrop/ButtonDrop.tsx"
     },
     {
       "semanticWidget": "Drawer",
-      "status": "required",
+      "status": "implemented",
       "requiredFor": "Right-side full-height modal drawer",
       "expectedPath": "uikit-main/Drawer/Drawer.tsx"
     },
     {
       "semanticWidget": "StatsCards",
-      "status": "required",
+      "status": "implemented",
       "requiredFor": "Metric summary widget in platform MVP set",
       "expectedPath": "uikit-main/StatsCards/StatsCards.tsx"
     }

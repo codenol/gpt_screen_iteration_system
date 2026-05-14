@@ -215,7 +215,7 @@ export function validateRendererBindings(protocol, bindings) {
     const addition = requiredAdditions.get(semanticWidget);
     if (!addition) {
       errors.push(`Required UIKit addition is missing from bindings: ${semanticWidget}`);
-    } else if (addition.status !== "required") {
+    } else if (addition.status !== "required" && addition.status !== "implemented") {
       errors.push(`Required UIKit addition must have status=required: ${semanticWidget}`);
     }
   }

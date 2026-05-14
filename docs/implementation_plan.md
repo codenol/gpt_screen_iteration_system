@@ -45,9 +45,9 @@ Drawer: right-side full-height modal (open/close = runtime only).
 | TableControls | renderer composition | bound |
 | AppLayout | renderer composition | bound |
 | MissingCapabilityWidget | renderer placeholder | bound |
-| Drawer | Drawer | **required UIKit addition** |
-| StatsCards | StatsCards | **required UIKit addition** |
-| ButtonDrop | ButtonDrop | **required UIKit addition** |
+| Drawer | Drawer | **implemented** |
+| StatsCards | StatsCards | **implemented** |
+| ButtonDrop | ButtonDrop | **implemented** |
 
 ### Transform Contracts (8)
 
@@ -181,39 +181,28 @@ Create `examples/semantic-state.mvp-users-crud.json`:
 
 ---
 
-### Phase 5: UIKit Component Additions
+### Phase 5: UIKit Component Additions (DONE) ✓
 
 These are needed BEFORE the Renderer MVP -- renderer needs real components to materialize.
 
-#### 5.1 -- UIKit Drawer
+#### 5.1 -- UIKit Drawer ✅
 - Path: `uikit-main/Drawer/Drawer.tsx`
-- Right-side modal panel, 100vh height
-- Props: title, content, actions, width, visible (RUNTIME state, not semantic)
+- Right-side modal panel, 100vh height. Props: title, content, actions, width, visible (RUNTIME).
 - Semantic anchors on: header, content, actions regions
-- Integration props: onClose, onAction
 
-#### 5.2 -- UIKit ButtonDrop
+#### 5.2 -- UIKit ButtonDrop ✅
 - Path: `uikit-main/ButtonDrop/ButtonDrop.tsx`
 - Button with dropdown menu (primary CTA in TableControls)
-- Props: label, items (dropdown options), variant, icon, disabled
-- Semantic anchors on: button, dropdown
+- Props: label, items, variant, icon, disabled
 
-#### 5.3 -- UIKit StatsCards
+#### 5.3 -- UIKit StatsCards ✅
 - Path: `uikit-main/StatsCards/StatsCards.tsx`
 - Metric summary cards with trend indicators
-- Props: metrics[], density, showTrend, drillTargets
-- Semantic anchors on: metrics, trends, drill_targets
+- Props: metrics[], density, showTrend, drillTargets, onDrill
 
-#### 5.4 -- Update uikit-bindings.json
-- Add actual component paths after implementation
-- Add variant -> prop mappings (like SidebarMinibar's layoutMode)
-
-#### 5.5 -- Tests: `tests/uikit-additions.test.js`
-- Each component exports from uikit-main
-- Each renders without errors with basic props
-- Semantic anchor data-attributes present in DOM (data-semantic-node-id, data-semantic-role)
-
-**Estimated: ~5 new tests. Target: >48 tests passing.**
+#### 5.4 -- Update uikit-bindings.json ✅
+- All three requiredUikitAdditions: status changed to "implemented"
+- Drawer and StatsCards implementationStatus: "implemented"
 
 ---
 
