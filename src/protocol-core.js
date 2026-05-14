@@ -517,6 +517,166 @@ export function createRevisionCandidate(validationResult, state) {
   };
 }
 
+export function applyTransform(state, validatedTransform) {
+  const next = JSON.parse(JSON.stringify(state));
+  const targetNode = findNode(next, validatedTransform.targetNodeId);
+  if (!targetNode) return null;
+
+  const widget = findWidgetForNode(next, targetNode);
+  const contract = { id: validatedTransform.transformId, effects: validatedTransform.semanticEffects, invariants: validatedTransform.invariants ?? [] };
+
+  applyEffects(next, validatedTransform.semanticEffects, targetNode, widget);
+
+  const invariantErrors = checkInvariants(next, contract, validatedTransform.targetNodeId);
+  if (invariantErrors.length > 0) return null;
+
+  return next;
+}
+
+export function applyEffects(state, effects, targetNode, targetWidget) {
+  for (const effect of effects) {
+    switch (effect.type) {
+      case "set_widget_variant":
+        if (targetWidget && effect.value) {
+          targetWidget.variant = effect.value;
+        }
+        break;
+
+      case "reduce_visual_priority": {
+        const roleTarget = effect.targetRole;
+        if (roleTarget) {
+          const child = findChildByRole(targetNode, roleTarget);
+          if (child) ensureMetadata(child).visualPriority = "reduced";
+        } else {
+          ensureMetadata(targetNode).visualPriority = "reduced";
+        }
+        break;
+      }
+
+      case "collapse_node": {
+        applyToTargetOrChild(targetNode, effect.targetRole, (node) => {
+          ensureMetadata(node).collapsed = true;
+        });
+        break;
+      }
+
+      case "prioritize_node": {
+        applyToTargetOrChild(targetNode, effect.targetRole, (node) => {
+          ensureMetadata(node).priority = "high";
+        });
+        break;
+      }
+
+      case "ensure_node_visible": {
+        applyToTargetOrChild(targetNode, effect.targetRole, (node) => {
+          delete ensureMetadata(node).collapsed;
+        });
+        break;
+      }
+
+      case "change_layout_semantic_role":
+        if (effect.to) {
+          targetNode.role = effect.to;
+        }
+        break;
+
+      case "add_placeholder_capability": {
+        const placeholderWidget = {
+          id: `placeholder_${Date.now()}`,
+          widgetType: "MissingCapabilityWidget",
+          nodeId: targetNode.id,
+          variant: "placeholder",
+          featureId: targetNode.featureId ?? null,
+          props: {}
+        };
+        if (!state.widgets) state.widgets = [];
+        state.widgets.push(placeholderWidget);
+        break;
+      }
+
+      case "link_missing_capability_request":
+        if (effect.capabilityName) {
+          ensureMetadata(targetNode).capabilityRequest = effect.capabilityName;
+        }
+        break;
+    }
+  }
+}
+
+export function checkInvariants(state, contract, targetNodeId) {
+  const errors = [];
+  const invariants = contract.invariants ?? [];
+  const targetNode = findNode(state, targetNodeId);
+
+  for (const invariant of invariants) {
+    switch (invariant) {
+      case "preserve_semantic_node_id":
+        if (!targetNode || !targetNode.id) {
+          errors.push(`Invariant violated: preserve_semantic_node_id`);
+        }
+        break;
+
+      case "do_not_set_runtime_state": {
+        const runtimeKeys = ["hover", "selectedRow", "openDrawer", "focusedField", "activeTab"];
+        const stateStr = JSON.stringify(state);
+        for (const key of runtimeKeys) {
+          if (stateStr.includes(`"${key}"`)) {
+            errors.push(`Invariant violated: do_not_set_runtime_state (found "${key}")`);
+            break;
+          }
+        }
+        break;
+      }
+
+      case "do_not_emit_frontend_code": {
+        const stateStr = JSON.stringify(state);
+        for (const pattern of ["<div", "</div>", "function(", "=>", "className", "React."]) {
+          if (stateStr.includes(pattern)) {
+            errors.push(`Invariant violated: do_not_emit_frontend_code`);
+            break;
+          }
+        }
+        break;
+      }
+
+      case "preserve_interaction_contract":
+        break;
+
+      case "preserve_semantic_intent":
+        break;
+
+      case "do_not_fake_unsupported_interactions":
+        break;
+
+      case "preserve_primary_search_visibility":
+        break;
+
+      case "preserve_primary_controls":
+        break;
+    }
+  }
+
+  return errors;
+}
+
+function findChildByRole(node, role) {
+  if (!node.children) return null;
+  return node.children.find((child) => child.role === role) ?? null;
+}
+
+function applyToTargetOrChild(targetNode, targetRole, fn) {
+  if (targetRole) {
+    const child = findChildByRole(targetNode, targetRole);
+    if (child) { fn(child); return; }
+  }
+  fn(targetNode);
+}
+
+function ensureMetadata(node) {
+  if (!node.metadata) node.metadata = {};
+  return node.metadata;
+}
+
 function resolveEffects({ contract, widgetDefinition, candidate }) {
   return contract.effects.map((effect) => {
     if (effect.type === "set_widget_variant") {
