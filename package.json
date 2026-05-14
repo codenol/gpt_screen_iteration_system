@@ -5,6 +5,6 @@
   "type": "module",
   "description": "Stack-agnostic executable Design Protocol and Transform Contracts for Semantic UI Evolution Platform.",
   "scripts": {
-    "test": "node tests/conformance.test.js && node tests/semantic-state.test.js && node tests/transform-apply.test.js && node tests/revision.test.js"
+    "test": "node tests/conformance.test.js && node tests/semantic-state.test.js && node tests/transform-apply.test.js && node tests/revision.test.js && node tests/comment.test.js"
   }
 }

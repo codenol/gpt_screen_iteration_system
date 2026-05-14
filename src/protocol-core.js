@@ -809,6 +809,63 @@ export function createBranch(store, branchId, branchName, baseRevisionId) {
   return branch;
 }
 
+export function createComment(state, targetNodeId, text, intent) {
+  const revisionId = resolveRevisionId(state);
+  const branchId = resolveBranchId(state);
+  const node = findNode(state, targetNodeId);
+  if (!node) return null;
+
+  const comment = {
+    id: `cmt_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+    targetNodeId,
+    revisionId,
+    branchId,
+    featureId: node.featureId ?? null,
+    intent,
+    text,
+    lifecycle: "open",
+    authorId: "user",
+    created: new Date().toISOString(),
+    updated: null,
+    linkedTransformId: null
+  };
+
+  if (!state.comments) state.comments = [];
+  state.comments.push(comment);
+  return comment;
+}
+
+export function resolveCommentsByNode(state, nodeId) {
+  return (state.comments ?? []).filter((c) => c.targetNodeId === nodeId);
+}
+
+export function resolveCommentsByRevision(state, revisionId) {
+  return (state.comments ?? []).filter((c) => c.revisionId === revisionId);
+}
+
+export function transitionComment(comment, newLifecycle) {
+  const validTransitions = {
+    open: ["applied", "rejected", "outdated"],
+    applied: ["approved", "outdated"],
+    approved: ["outdated"],
+    rejected: ["outdated"],
+    outdated: []
+  };
+
+  const allowed = validTransitions[comment.lifecycle] ?? [];
+  if (!allowed.includes(newLifecycle)) return false;
+
+  comment.lifecycle = newLifecycle;
+  comment.updated = new Date().toISOString();
+  return true;
+}
+
+export function linkCommentToTransform(comment, transformId) {
+  comment.linkedTransformId = transformId;
+  comment.lifecycle = "applied";
+  comment.updated = new Date().toISOString();
+}
+
 function findChildByRole(node, role) {
   if (!node.children) return null;
   return node.children.find((child) => child.role === role) ?? null;
