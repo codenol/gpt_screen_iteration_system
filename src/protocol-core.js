@@ -232,6 +232,133 @@ export function validateRendererBindings(protocol, bindings) {
   return { ok: errors.length === 0, errors };
 }
 
+export function loadSemanticState(relativePath) {
+  return readJson(relativePath);
+}
+
+export function toLightweightState(doc) {
+  const meta = doc.meta ?? {};
+  return {
+    revisionId: meta.currentRevisionId ?? doc.revisions?.[0]?.id,
+    branchId: meta.currentBranchId ?? doc.branches?.[0]?.id,
+    archetype: meta.archetype,
+    nodes: doc.nodes ?? [],
+    widgets: doc.widgets ?? []
+  };
+}
+
+export function walkNodes(nodes, visitor) {
+  for (const node of nodes) {
+    visitor(node);
+    if (node.children) walkNodes(node.children, visitor);
+  }
+}
+
+export function collectNodeIds(nodes) {
+  const ids = new Set();
+  walkNodes(nodes, (node) => ids.add(node.id));
+  return ids;
+}
+
+export function validateSemanticState(protocol, doc) {
+  const errors = [];
+  const state = doc;
+
+  if (!state.meta || !state.meta.workspaceId || !state.meta.projectId || !state.meta.screenId || !state.meta.archetype) {
+    errors.push("Semantic state must define meta.workspaceId, meta.projectId, meta.screenId, meta.archetype");
+  }
+
+  const archetypes = Object.keys(protocol.screenArchetypes ?? {});
+  if (state.meta?.archetype && !archetypes.includes(state.meta.archetype)) {
+    errors.push(`Unknown archetype: ${state.meta.archetype}`);
+  }
+
+  const knownRoles = new Set(Object.keys(protocol.semanticRoles ?? {}));
+  const widgetDefs = indexBy(protocol.widgetDefinitions ?? [], "widgetType");
+  const nodeIds = collectNodeIds(state.nodes ?? []);
+
+  if (!state.nodes?.length) {
+    errors.push("Semantic state must contain at least one root node");
+  }
+
+  walkNodes(state.nodes ?? [], (node) => {
+    if (!node.id || !node.role) {
+      errors.push(`Node missing id or role: ${JSON.stringify(node)}`);
+      return;
+    }
+    if (!knownRoles.has(node.role)) {
+      errors.push(`Node ${node.id} references unknown role: ${node.role}`);
+    }
+    if (typeof node.targetable !== "boolean") {
+      errors.push(`Node ${node.id} must define targetable (boolean)`);
+    }
+  });
+
+  const widgetIds = new Set();
+  for (const widget of state.widgets ?? []) {
+    if (widgetIds.has(widget.id)) {
+      errors.push(`Duplicate widget id: ${widget.id}`);
+    }
+    widgetIds.add(widget.id);
+
+    const def = widgetDefs.get(widget.widgetType);
+    if (!def) {
+      errors.push(`Widget ${widget.id} references unknown widgetType: ${widget.widgetType}`);
+    } else if (!def.variants?.includes(widget.variant)) {
+      errors.push(`Widget ${widget.id} variant '${widget.variant}' is not in ${widget.widgetType} variants: ${def.variants?.join(", ")}`);
+    }
+
+    if (!nodeIds.has(widget.nodeId)) {
+      errors.push(`Widget ${widget.id} references unknown nodeId: ${widget.nodeId}`);
+    }
+  }
+
+  const branchIds = new Set((state.branches ?? []).map((branch) => branch.id));
+  const revisionIds = new Set((state.revisions ?? []).map((rev) => rev.id));
+
+  for (const branch of state.branches ?? []) {
+    if (!revisionIds.has(branch.baseRevisionId)) {
+      errors.push(`Branch ${branch.id} references unknown baseRevisionId: ${branch.baseRevisionId}`);
+    }
+    if (!revisionIds.has(branch.headRevisionId)) {
+      errors.push(`Branch ${branch.id} references unknown headRevisionId: ${branch.headRevisionId}`);
+    }
+  }
+
+  for (const rev of state.revisions ?? []) {
+    if (rev.baseRevisionId !== rev.id && !revisionIds.has(rev.baseRevisionId)) {
+      errors.push(`Revision ${rev.id} references unknown baseRevisionId: ${rev.baseRevisionId}`);
+    }
+    if (!branchIds.has(rev.branchId)) {
+      errors.push(`Revision ${rev.id} references unknown branchId: ${rev.branchId}`);
+    }
+    if (!rev.created) {
+      errors.push(`Revision ${rev.id} missing created timestamp`);
+    }
+  }
+
+  for (const comment of state.comments ?? []) {
+    if (!nodeIds.has(comment.targetNodeId)) {
+      errors.push(`Comment ${comment.id} references unknown targetNodeId: ${comment.targetNodeId}`);
+    }
+    if (!revisionIds.has(comment.revisionId)) {
+      errors.push(`Comment ${comment.id} references unknown revisionId: ${comment.revisionId}`);
+    }
+    if (!branchIds.has(comment.branchId)) {
+      errors.push(`Comment ${comment.id} references unknown branchId: ${comment.branchId}`);
+    }
+    const validLifecycles = ["open", "applied", "approved", "rejected", "outdated"];
+    if (!validLifecycles.includes(comment.lifecycle)) {
+      errors.push(`Comment ${comment.id} has invalid lifecycle: ${comment.lifecycle}`);
+    }
+    if (!comment.intent || !comment.text) {
+      errors.push(`Comment ${comment.id} missing intent or text`);
+    }
+  }
+
+  return { ok: errors.length === 0, errors };
+}
+
 export function findNode(state, targetNodeId) {
   const queue = [...(state.nodes ?? [])];
   while (queue.length > 0) {
@@ -246,6 +373,18 @@ export function findWidgetForNode(state, node) {
   if (!node) return null;
   const widgets = state.widgets ?? [];
   return widgets.find((widget) => node.id === widget.nodeId || node.id.startsWith(`${widget.nodeId}.`)) ?? null;
+}
+
+export function resolveArchetype(state) {
+  return state.meta?.archetype ?? state.archetype ?? null;
+}
+
+export function resolveRevisionId(state) {
+  return state.meta?.currentRevisionId ?? state.revisionId ?? null;
+}
+
+export function resolveBranchId(state) {
+  return state.meta?.currentBranchId ?? state.branchId ?? null;
 }
 
 export function validateTransformCandidate({ protocol, contracts, state, candidate }) {
@@ -282,8 +421,9 @@ export function validateTransformCandidate({ protocol, contracts, state, candida
     return invalid(candidate, `Widget ${widgetType} does not allow transform ${contract.id}`);
   }
 
+  const archetype = resolveArchetype(state);
   const restriction = protocol.compatibilityRules.archetypeTransformRestrictions?.find((rule) => {
-    return rule.archetype === state.archetype
+    return rule.archetype === archetype
       && rule.transformId === contract.id
       && rule.targetWidgetType === widgetType
       && rule.allowed === false;
@@ -367,8 +507,8 @@ export function createRevisionCandidate(validationResult, state) {
   if (validationResult.status !== "valid") return null;
   const { resolvedTransform } = validationResult;
   return {
-    baseRevisionId: state.revisionId,
-    branchId: state.branchId,
+    baseRevisionId: resolveRevisionId(state),
+    branchId: resolveBranchId(state),
     transform: resolvedTransform,
     appliedCommentIds: resolvedTransform.revisionLinkage.markCommentApplied && resolvedTransform.revisionLinkage.commentId
       ? [resolvedTransform.revisionLinkage.commentId]

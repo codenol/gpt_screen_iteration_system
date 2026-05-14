@@ -13,7 +13,7 @@ Implemented:
 - Conformance tests: `tests/conformance.test.js`
 - Test script: `npm test`
 
-Current validation status: **13/13 conformance tests passed**
+Current validation status: **14/14 conformance tests passed**
 
 ---
 
@@ -68,7 +68,7 @@ All of the above. 13/13 conformance tests pass via `npm test`.
 - [x] Design Protocol, Transform Contracts, UIKit Bindings
 - [x] JSON Schemas for protocol & transform contracts
 - [x] Validator (`src/protocol-core.js`)
-- [x] Conformance tests (`tests/conformance.test.js`) — 13/13
+- [x] Conformance tests (`tests/conformance.test.js`) — 14/14
 - [x] `.gitignore`
 - [x] Git init, remote set (`github.com/codenol/gpt_screen_iteration_system`), commit, push
 
@@ -76,11 +76,11 @@ All of the above. 13/13 conformance tests pass via `npm test`.
 
 ### Phase 1: Semantic State Model (NEXT)
 
-#### 1.1 -- JSON Schema for Semantic State
+#### 1.1 -- JSON Schema for Semantic State ✅
 Create `protocol/schemas/semantic-state.schema.json`.
 Validates: Workspace, Project, Screen, Feature, SemanticNode (tree), WidgetInstance[], Branch[], Revision[], Comment[].
 
-#### 1.2 -- Formal Data Structures
+#### 1.2 -- Formal Data Structures ✅ (captured in schema)
 - **Workspace**: org, users, roles, Design Protocol reference
 - **Project**: domain semantics, description, screens[]
 - **Screen**: UX scenario, archetype reference, features[], layout regions
@@ -99,19 +99,17 @@ Create `examples/semantic-state.mvp-users-crud.json`:
 - WidgetInstances: TableControls(standard), DataTableDynamic(comfortable), Drawer(standard)
 - Initial Revision: initial_state_v1
 
-#### 1.4 -- Extend protocol-core.js
+#### 1.4 -- Extend protocol-core.js ✅
 - `validateSemanticState(protocol, state)`: checks node roles known, widget types registered, revision/branch references consistent
 - `loadSemanticState(path)`
+- `toLightweightState(doc)`, `collectNodeIds(nodes)`, `walkNodes(nodes, visitor)`
+- `resolveArchetype(state)`, `resolveRevisionId(state)`, `resolveBranchId(state)` — работать с обоими форматами state
 
-#### 1.5 -- Tests: `tests/semantic-state.test.js`
-- Stable node IDs (deterministic, human-readable, hierarchical)
-- Widget ownership (widget -> node reference valid)
-- Branch references (revision -> branch consistent)
-- Comment targets (targetNodeId exists in state)
-- Unknown widgetType -> error
-- Unknown node role -> error
+#### 1.5 -- Tests: `tests/semantic-state.test.js` ✅
+- Stable node IDs, widget ownership, branch/revision references — 15 tests pass
+- `npm test` теперь запускает оба набора: 29 тестов
 
-**Estimated: ~10 new tests. Target: >23 tests passing.**
+**Estimated: ~10 new tests. Result: 15 new tests. Total: 29 tests passing.** ✅
 
 ---
 

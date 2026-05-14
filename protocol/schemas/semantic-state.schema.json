@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://semantic-ui-evolution.local/schemas/semantic-state.schema.json",
+  "title": "SemanticState",
+  "description": "Full semantic state document for a screen at a given revision. Includes workspace/project metadata, semantic node tree, widget instances, branches, revision chain, and comments.",
+  "type": "object",
+  "required": ["meta", "nodes", "widgets", "branches", "revisions", "comments"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["workspaceId", "projectId", "screenId", "archetype"],
+      "properties": {
+        "workspaceId": { "type": "string" },
+        "projectId": { "type": "string" },
+        "screenId": { "type": "string" },
+        "archetype": {
+          "type": "string",
+          "description": "Screen archetype from Design Protocol: crud_management | dense_operational | approval_workflow"
+        },
+        "currentBranchId": { "type": "string" },
+        "currentRevisionId": { "type": "string" },
+        "workspace": {
+          "type": "object",
+          "description": "Optional workspace metadata for MVP",
+          "properties": {
+            "name": { "type": "string" },
+            "designProtocolVersion": { "type": "string" }
+          }
+        },
+        "project": {
+          "type": "object",
+          "description": "Optional project metadata for MVP",
+          "properties": {
+            "name": { "type": "string" },
+            "description": { "type": "string" },
+            "domain": { "type": "string" }
+          }
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Root semantic nodes of the screen. Each node may contain children recursively.",
+      "items": { "$ref": "#/$defs/semanticNode" }
+    },
+    "widgets": {
+      "type": "array",
+      "description": "Widget instances bound to semantic nodes.",
+      "items": { "$ref": "#/$defs/widgetInstance" }
+    },
+    "branches": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Branches for this screen/feature.",
+      "items": { "$ref": "#/$defs/branch" }
+    },
+    "revisions": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Event-sourced revision chain. First revision is initial state.",
+      "items": { "$ref": "#/$defs/revision" }
+    },
+    "comments": {
+      "type": "array",
+      "description": "Comments targeting semantic nodes. Each comment belongs to a revision and branch.",
+      "items": { "$ref": "#/$defs/comment" }
+    }
+  },
+  "$defs": {
+    "semanticNode": {
+      "type": "object",
+      "required": ["id", "role", "targetable"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable, deterministic, hierarchical node ID (e.g., users_screen.table_controls.left.search)"
+        },
+        "role": {
+          "type": "string",
+          "description": "Semantic role from Design Protocol (e.g., screen, table_controls, primary_filter)"
+        },
+        "targetable": {
+          "type": "boolean",
+          "description": "Whether this node can be targeted by comments and transforms"
+        },
+        "featureId": {
+          "type": "string",
+          "description": "Feature this node belongs to"
+        },
+        "children": {
+          "type": "array",
+          "description": "Nested child semantic nodes",
+          "items": { "$ref": "#/$defs/semanticNode" }
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Optional semantic metadata modifiable by transforms",
+          "properties": {
+            "purpose": { "type": "string" },
+            "priority": { "enum": ["high", "normal", "low"] },
+            "collapsed": { "type": "boolean" },
+            "visualPriority": { "enum": ["normal", "reduced"] },
+            "capabilityRequest": { "type": "string" }
+          }
+        }
+      }
+    },
+    "widgetInstance": {
+      "type": "object",
+      "required": ["id", "widgetType", "nodeId", "variant"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique widget instance ID"
+        },
+        "widgetType": {
+          "type": "string",
+          "description": "Semantic widget type from Design Protocol widgetDefinitions"
+        },
+        "nodeId": {
+          "type": "string",
+          "description": "Semantic node ID this widget is bound to"
+        },
+        "variant": {
+          "type": "string",
+          "description": "Active variant for this widget instance"
+        },
+        "featureId": {
+          "type": "string",
+          "description": "Feature this widget belongs to"
+        },
+        "props": {
+          "type": "object",
+          "description": "Safe semantic props for the renderer"
+        }
+      }
+    },
+    "branch": {
+      "type": "object",
+      "required": ["id", "name", "baseRevisionId", "headRevisionId"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "featureId": { "type": "string" },
+        "baseRevisionId": {
+          "type": "string",
+          "description": "The revision from which this branch was forked"
+        },
+        "headRevisionId": {
+          "type": "string",
+          "description": "The latest revision on this branch"
+        }
+      }
+    },
+    "revision": {
+      "type": "object",
+      "required": ["id", "baseRevisionId", "branchId", "transforms", "created"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique revision ID"
+        },
+        "baseRevisionId": {
+          "type": "string",
+          "description": "Parent revision ID. For initial revision, equals own id."
+        },
+        "branchId": {
+          "type": "string",
+          "description": "Branch this revision belongs to"
+        },
+        "featureId": {
+          "type": "string",
+          "description": "Feature this revision belongs to"
+        },
+        "transforms": {
+          "type": "array",
+          "description": "Chain of transforms applied in this revision",
+          "items": {
+            "type": "object",
+            "required": ["transformId", "targetNodeId"],
+            "properties": {
+              "transformId": { "type": "string" },
+              "targetNodeId": { "type": "string" },
+              "intent": { "type": "string" },
+              "widgetType": { "type": "string" },
+              "explanation": { "type": "string" }
+            }
+          }
+        },
+        "appliedCommentIds": {
+          "type": "array",
+          "description": "Comment IDs that were applied in this revision",
+          "items": { "type": "string" }
+        },
+        "created": {
+          "type": "string",
+          "description": "ISO timestamp of revision creation"
+        },
+        "author": { "type": "string" },
+        "rollback": {
+          "type": "boolean",
+          "description": "True if this revision was created by a rollback operation"
+        },
+        "rollbackTargetId": {
+          "type": "string",
+          "description": "If rollback, the revision ID that was rolled back to"
+        }
+      }
+    },
+    "comment": {
+      "type": "object",
+      "required": ["id", "targetNodeId", "revisionId", "branchId", "intent", "text", "lifecycle", "authorId", "created"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique comment ID"
+        },
+        "targetNodeId": {
+          "type": "string",
+          "description": "Semantic node targeted by this comment"
+        },
+        "revisionId": {
+          "type": "string",
+          "description": "Revision this comment was created in"
+        },
+        "branchId": {
+          "type": "string",
+          "description": "Branch this comment belongs to"
+        },
+        "featureId": {
+          "type": "string",
+          "description": "Feature this comment belongs to"
+        },
+        "intent": {
+          "type": "string",
+          "description": "Normalized semantic intent (maps to a transform ID, e.g., increase_density)"
+        },
+        "text": {
+          "type": "string",
+          "description": "Original natural language feedback text"
+        },
+        "lifecycle": {
+          "type": "string",
+          "enum": ["open", "applied", "approved", "rejected", "outdated"],
+          "description": "Comment lifecycle state"
+        },
+        "authorId": {
+          "type": "string",
+          "description": "ID of the comment author"
+        },
+        "created": {
+          "type": "string",
+          "description": "ISO timestamp of comment creation"
+        },
+        "updated": {
+          "type": "string",
+          "description": "ISO timestamp of last lifecycle change"
+        },
+        "linkedTransformId": {
+          "type": "string",
+          "description": "Transform that this comment triggered (if applied)"
+        }
+      }
+    }
+  }
+}

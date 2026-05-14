@@ -1,0 +1,188 @@
+{
+  "$schema": "../protocol/schemas/semantic-state.schema.json",
+  "meta": {
+    "workspaceId": "ws_demo",
+    "projectId": "proj_platform",
+    "screenId": "users_management",
+    "archetype": "crud_management",
+    "currentBranchId": "branch_main",
+    "currentRevisionId": "rev_001",
+    "workspace": {
+      "name": "Demo Workspace",
+      "designProtocolVersion": "0.1.0"
+    },
+    "project": {
+      "name": "Platform Admin",
+      "description": "User management for the platform. Quickly find users, change roles, view activity. Critical: fast filters, compact table, high data density.",
+      "domain": "administration"
+    }
+  },
+  "nodes": [
+    {
+      "id": "users_screen",
+      "role": "screen",
+      "targetable": true,
+      "featureId": "feat_table",
+      "metadata": {
+        "purpose": "Root semantic UX workspace for user management"
+      },
+      "children": [
+        {
+          "id": "users_screen.table_controls",
+          "role": "table_controls",
+          "targetable": true,
+          "featureId": "feat_table",
+          "children": [
+            {
+              "id": "users_screen.table_controls.left",
+              "role": "table_controls_left",
+              "targetable": true,
+              "featureId": "feat_table",
+              "children": [
+                {
+                  "id": "users_screen.table_controls.left.search",
+                  "role": "primary_filter",
+                  "targetable": true,
+                  "featureId": "feat_table",
+                  "metadata": {
+                    "purpose": "Primary search field for user lookup",
+                    "priority": "high"
+                  }
+                },
+                {
+                  "id": "users_screen.table_controls.left.filters",
+                  "role": "filters",
+                  "targetable": true,
+                  "featureId": "feat_table",
+                  "metadata": {
+                    "purpose": "Filter controls: role, status, lastActive"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "users_screen.table_controls.right",
+              "role": "table_controls_right",
+              "targetable": true,
+              "featureId": "feat_table",
+              "children": [
+                {
+                  "id": "users_screen.table_controls.right.secondary_actions",
+                  "role": "secondary_action",
+                  "targetable": true,
+                  "featureId": "feat_table",
+                  "metadata": {
+                    "purpose": "Secondary outline actions: Export, Bulk edit"
+                  }
+                },
+                {
+                  "id": "users_screen.table_controls.right.cta",
+                  "role": "primary_cta",
+                  "targetable": true,
+                  "featureId": "feat_table",
+                  "metadata": {
+                    "purpose": "Primary CTA: Add User (ButtonDrop with dropdown: Add User, Invite User)",
+                    "priority": "high"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "users_screen.users_table",
+          "role": "data_table",
+          "targetable": true,
+          "featureId": "feat_table",
+          "metadata": {
+            "purpose": "Dense operational data display for users"
+          },
+          "children": [
+            {
+              "id": "users_screen.users_table.pagination",
+              "role": "table_pagination",
+              "targetable": true,
+              "featureId": "feat_table",
+              "metadata": {
+                "purpose": "Pagination block rendered below the table"
+              }
+            }
+          ]
+        },
+        {
+          "id": "users_screen.details_drawer",
+          "role": "details_overlay",
+          "targetable": true,
+          "featureId": "feat_drawer",
+          "metadata": {
+            "purpose": "Contextual detail drawer for user inspection"
+          }
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "id": "table_controls_widget",
+      "widgetType": "TableControls",
+      "nodeId": "users_screen.table_controls",
+      "variant": "standard",
+      "featureId": "feat_table",
+      "props": {
+        "search": true,
+        "filters": ["role", "status", "lastActive"],
+        "primaryAction": { "label": "Add User", "type": "ButtonDrop", "items": ["Add User", "Invite User"] },
+        "secondaryActions": ["Export", "Bulk Edit"]
+      }
+    },
+    {
+      "id": "table_widget",
+      "widgetType": "DataTable",
+      "nodeId": "users_screen.users_table",
+      "variant": "comfortable",
+      "featureId": "feat_table",
+      "props": {
+        "columns": ["name", "email", "role", "status", "lastActive"],
+        "paginator": true,
+        "rows": 25,
+        "rowsPerPageOptions": [10, 25, 50],
+        "selectionMode": "multiple",
+        "stripedRows": true
+      }
+    },
+    {
+      "id": "drawer_widget",
+      "widgetType": "Drawer",
+      "nodeId": "users_screen.details_drawer",
+      "variant": "standard",
+      "featureId": "feat_drawer",
+      "props": {
+        "title": "User Details",
+        "width": "480px"
+      }
+    }
+  ],
+  "branches": [
+    {
+      "id": "branch_main",
+      "name": "main",
+      "featureId": "feat_table",
+      "baseRevisionId": "rev_001",
+      "headRevisionId": "rev_001"
+    }
+  ],
+  "revisions": [
+    {
+      "id": "rev_001",
+      "baseRevisionId": "rev_001",
+      "branchId": "branch_main",
+      "featureId": "feat_table",
+      "transforms": [],
+      "appliedCommentIds": [],
+      "created": "2026-05-14T10:00:00.000Z",
+      "author": "system",
+      "rollback": false
+    }
+  ],
+  "comments": []
+}
