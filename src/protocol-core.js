@@ -659,6 +659,156 @@ export function checkInvariants(state, contract, targetNodeId) {
   return errors;
 }
 
+export function createRevisionStore() {
+  return {
+    revisions: new Map(),
+    sequence: 0,
+    nextId() { return `rev_${String(++this.sequence).padStart(3, "0")}`; },
+    add(revision) { this.revisions.set(revision.id, revision); },
+    get(id) { return this.revisions.get(id); },
+    getAll() { return [...this.revisions.values()]; }
+  };
+}
+
+export function createRevision(store, state, validatedTransform, commentId) {
+  const newId = store.nextId();
+  const baseRevisionId = resolveRevisionId(state);
+  const branchId = resolveBranchId(state);
+
+  const next = applyTransform(JSON.parse(JSON.stringify(state)), validatedTransform);
+  if (!next) return null;
+
+  const revision = {
+    id: newId,
+    baseRevisionId: baseRevisionId ?? newId,
+    branchId: branchId ?? "main",
+    featureId: state.meta?.screenId ?? null,
+    stateSnapshot: { nodes: next.nodes, widgets: next.widgets },
+    transforms: [{
+      transformId: validatedTransform.transformId,
+      targetNodeId: validatedTransform.targetNodeId,
+      intent: validatedTransform.intent,
+      widgetType: validatedTransform.widgetType,
+      explanation: validatedTransform.explanation
+    }],
+    appliedCommentIds: commentId ? [commentId] : [],
+    created: new Date().toISOString(),
+    author: "system",
+    rollback: false
+  };
+
+  store.add(revision);
+  return revision;
+}
+
+export function getRevisionChain(store, branchId) {
+  const chain = [];
+  const allRevs = store.getAll().filter((r) => r.branchId === branchId);
+  if (allRevs.length === 0) return chain;
+
+  const byId = new Map(allRevs.map((r) => [r.id, r]));
+  let current = allRevs.find((r) => r.baseRevisionId === r.id);
+  if (!current) current = allRevs[0];
+
+  while (current) {
+    chain.push(current);
+    const next = allRevs.find((r) => r.baseRevisionId === current.id && r.id !== current.id);
+    current = next ?? null;
+  }
+
+  return chain;
+}
+
+export function getHeadRevision(store, branchId) {
+  const chain = getRevisionChain(store, branchId);
+  return chain.length > 0 ? chain[chain.length - 1] : null;
+}
+
+export function materializeRevision(store, revisionId, initialWidgets, initialNodes) {
+  const rev = store.get(revisionId);
+  if (!rev) return null;
+
+  const chain = [];
+  const visited = new Set();
+  let current = rev;
+
+  while (current && !visited.has(current.id)) {
+    visited.add(current.id);
+    chain.unshift(current);
+    if (current.baseRevisionId === current.id) break;
+    current = store.get(current.baseRevisionId);
+  }
+
+  const state = {
+    nodes: JSON.parse(JSON.stringify(initialNodes ?? [])),
+    widgets: JSON.parse(JSON.stringify(initialWidgets ?? []))
+  };
+
+  for (const r of chain) {
+    for (const t of r.transforms) {
+      const targetNode = findNode(state, t.targetNodeId);
+      if (!targetNode) continue;
+      const widget = findWidgetForNode(state, targetNode);
+      const effects = [{ type: "set_widget_variant", value: "compact" }];
+      state.nodes = r.stateSnapshot?.nodes ?? state.nodes;
+      state.widgets = r.stateSnapshot?.widgets ?? state.widgets;
+    }
+  }
+
+  const last = chain[chain.length - 1];
+  return {
+    revisionId: last?.id ?? revisionId,
+    nodes: last?.stateSnapshot?.nodes ?? state.nodes,
+    widgets: last?.stateSnapshot?.widgets ?? state.widgets
+  };
+}
+
+export function rollbackToRevision(store, state, targetRevisionId) {
+  const targetRev = store.get(targetRevisionId);
+  if (!targetRev) return null;
+
+  const currentId = resolveRevisionId(state);
+  if (!currentId || currentId === targetRevisionId) return null;
+
+  const newId = store.nextId();
+  const rollbackRev = {
+    id: newId,
+    baseRevisionId: currentId,
+    branchId: resolveBranchId(state) ?? "main",
+    featureId: state.meta?.screenId ?? null,
+    stateSnapshot: targetRev.stateSnapshot,
+    transforms: [{
+      transformId: "rollback",
+      targetNodeId: "screen",
+      intent: "rollback",
+      explanation: `Rollback to revision ${targetRevisionId}`
+    }],
+    appliedCommentIds: [],
+    created: new Date().toISOString(),
+    author: "system",
+    rollback: true,
+    rollbackTargetId: targetRevisionId
+  };
+
+  store.add(rollbackRev);
+  return rollbackRev;
+}
+
+export function createBranch(store, branchId, branchName, baseRevisionId) {
+  const baseRev = store.get(baseRevisionId);
+  if (!baseRev) return null;
+
+  const branch = {
+    id: branchId,
+    name: branchName,
+    featureId: baseRev.featureId,
+    baseRevisionId,
+    headRevisionId: baseRevisionId
+  };
+
+  return branch;
+}
+
 function findChildByRole(node, role) {
   if (!node.children) return null;
   return node.children.find((child) => child.role === role) ?? null;
